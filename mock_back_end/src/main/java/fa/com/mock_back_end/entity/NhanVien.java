@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -25,7 +26,7 @@ public class NhanVien {
     private String gioiTinh;
     private String chucVu;
     private String matKhau;
-    private boolean status;
+    private boolean status = true;
 
     @OneToMany(mappedBy = "nhanVien")
     List<HoaDonBanHang> listHoaDonBanHang;
