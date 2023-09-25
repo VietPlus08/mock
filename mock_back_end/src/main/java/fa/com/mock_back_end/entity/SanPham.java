@@ -5,11 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -21,14 +18,24 @@ public class SanPham {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long maSanPham;
+    @Column(length = 50)
     private String tenSanPham;
+    @Column(length = 50)
     private String nhanHang;
+    @Column(length = 10)
     private String boNhoTrong;
+    @Column(length = 20)
+    private String cpu;
     private long giaVon;
     private long giaNiemYet;
+    private int soLuong = 0;
+    @Column(length = 20)
     private String mauSac;
+    @Column(length = 10)
     private String ram;
+    @Column(length = 10)
     private String camera;
+    @Column(length = 500)
     private String imageUrl;
     private boolean status = true;
 

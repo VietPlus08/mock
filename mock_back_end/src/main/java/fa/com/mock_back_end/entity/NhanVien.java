@@ -20,10 +20,14 @@ import java.util.List;
 @AllArgsConstructor
 public class NhanVien {
     @Id
+    @Column(length = 10)
     private String maNhanVien;
+    @Column(length = 50)
     private String tenNhanVien;
     private LocalDate ngaySinh;
+    @Column(length = 10)
     private String gioiTinh;
+    @Column(length = 10)
     private String chucVu;
     private String matKhau;
     private boolean status = true;

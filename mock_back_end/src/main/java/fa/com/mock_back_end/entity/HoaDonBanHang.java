@@ -20,6 +20,7 @@ public class HoaDonBanHang {
     private Long maHoaDonBanHang;
     private LocalDateTime thoiGianBanHang;
     private long tongHoaDon;
+    @Column(length = 10)
     private String loaiHoaDon;
 
     @ManyToOne

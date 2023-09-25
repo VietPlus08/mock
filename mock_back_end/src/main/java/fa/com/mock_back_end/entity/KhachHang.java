@@ -19,9 +19,12 @@ public class KhachHang {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long maKhacHang;
+    @Column(length = 50)
     private String tenKhachHang;
     private LocalDate ngaySinh;
+    @Column(length = 10)
     private String gioiTinh;
+    @Column(length = 12)
     private String soDienThoai;
     private boolean status;
 
