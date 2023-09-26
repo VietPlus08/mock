@@ -1,6 +1,5 @@
 package fa.com.mock_back_end.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

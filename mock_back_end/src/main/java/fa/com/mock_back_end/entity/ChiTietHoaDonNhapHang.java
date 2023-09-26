@@ -1,6 +1,5 @@
 package fa.com.mock_back_end.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,7 @@ public class ChiTietHoaDonNhapHang {
     private Long maChiTietHoaDonNhapHang;
     private int soLuong;
     private long giaTien;
-
+    private boolean status = true;
 
     @ManyToOne
     @JoinColumn(name = "maSanPham")
