@@ -1,7 +1,6 @@
 package fa.com.mock_back_end.controller;
 
 import fa.com.mock_back_end.entity.NhanVien;
-import fa.com.mock_back_end.entity.SanPham;
 import fa.com.mock_back_end.service.NhanVienService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +34,7 @@ public class NhanVienController {
     @GetMapping(value = "/edit")
     public ResponseEntity<NhanVien> findItem(@RequestParam("id") String id) {
         Optional<NhanVien> nhanVien = nhanVienService.findById(id);
-        return nhanVien.map(item -> ResponseEntity.ok().body(item))
+        return nhanVien.map(vien -> ResponseEntity.ok().body(vien))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 

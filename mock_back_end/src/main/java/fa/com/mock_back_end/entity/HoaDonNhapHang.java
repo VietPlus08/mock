@@ -25,6 +25,6 @@ public class HoaDonNhapHang {
     @JoinColumn(name = "maNhaCungCap")
     NhaCungCap nhaCungCap;
 
-    @OneToMany(mappedBy = "hoaDonNhapHang")
+    @OneToMany(mappedBy = "hoaDonNhapHang", fetch = FetchType.EAGER)
     List<ChiTietHoaDonNhapHang> listChiTietHoaDonNhapHang;
 }
