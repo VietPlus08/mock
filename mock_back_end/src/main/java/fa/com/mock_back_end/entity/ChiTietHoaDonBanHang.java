@@ -19,7 +19,7 @@ public class ChiTietHoaDonBanHang {
     private long giaBanThuc;
     private int soLuong;
     private long giaNiemYetHienTai;
-
+    private boolean status = true;
 
     @ManyToOne
     @JoinColumn(name = "maSanPham")

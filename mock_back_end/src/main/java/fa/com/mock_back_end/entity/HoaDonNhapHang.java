@@ -20,6 +20,7 @@ public class HoaDonNhapHang {
     private Long maHoaDonNhapHang;
     private LocalDateTime thoiGianNhapHang;
     private Long tongHoaDon;
+    private boolean status = true;
 
     @ManyToOne
     @JoinColumn(name = "maNhaCungCap")

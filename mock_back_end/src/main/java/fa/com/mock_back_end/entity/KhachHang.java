@@ -14,11 +14,10 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class KhachHang {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long maKhacHang;
+    private Long maKhachHang;
     @Column(length = 50)
     private String tenKhachHang;
     private LocalDate ngaySinh;
@@ -26,7 +25,7 @@ public class KhachHang {
     private String gioiTinh;
     @Column(length = 12)
     private String soDienThoai;
-    private boolean status;
+    private boolean status = true;
 
     @OneToMany(mappedBy = "khachHang")
     List<HoaDonBanHang> listHoaDonBanHang;

@@ -22,6 +22,7 @@ public class HoaDonBanHang {
     private long tongHoaDon;
     @Column(length = 10)
     private String loaiHoaDon;
+    private boolean status = true;
 
     @ManyToOne
     @JoinColumn(name = "maKhangHang")

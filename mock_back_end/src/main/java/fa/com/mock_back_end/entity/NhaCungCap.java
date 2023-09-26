@@ -25,8 +25,7 @@ public class NhaCungCap {
     private String soDienThoai;
     @Column(length = 100)
     private String diaChi;
-    private boolean status;
-
+    private boolean status = true;
 
     @OneToMany(mappedBy = "nhaCungCap")
     List<HoaDonNhapHang> listHoaDonNhapHang;
