@@ -8,4 +8,7 @@ import java.util.List;
 public interface KhachHangRepository extends JpaRepository<KhachHang, Long> {
 
     public List<KhachHang> findByStatusTrue();
+
+    KhachHang findByStatusTrueAndSoDienThoai(String soDienThoai);
+
 }

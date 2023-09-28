@@ -26,6 +26,11 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
+    public KhachHang findByStatusTrueAndSoDienThoai(String soDienThoai) {
+        return khachHangRepository.findByStatusTrueAndSoDienThoai(soDienThoai);
+    }
+
+    @Override
     public KhachHang save(KhachHang data) {
         return khachHangRepository.save(data);
     }

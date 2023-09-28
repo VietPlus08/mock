@@ -9,6 +9,9 @@ public interface SanPhamService {
 
     List<SanPham> findAll();
     Optional<SanPham> findById(Long id);
+   // SanPham findByMaSanPham(Long id);
+
+    SanPham findByTenSanPham(String tenSanPham);
     SanPham save(SanPham sanPham);
     SanPham delete(Long id);
     SanPham update(SanPham sanPhamData);

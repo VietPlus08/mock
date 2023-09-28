@@ -25,6 +25,13 @@ public class SanPhamServiceImpl implements SanPhamService {
         return sanPhamRepository.findById(id);
     }
 
+
+
+    @Override
+    public SanPham findByTenSanPham(String tenSanPham) {
+        return sanPhamRepository.findByStatusTrueAndTenSanPham(tenSanPham);
+    }
+
     @Override
     public SanPham save(SanPham sanPham) {
         return sanPhamRepository.save(sanPham);

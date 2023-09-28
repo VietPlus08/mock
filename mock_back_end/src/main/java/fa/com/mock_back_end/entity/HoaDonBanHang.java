@@ -1,5 +1,6 @@
 package fa.com.mock_back_end.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class HoaDonBanHang {
     private String loaiHoaDon;
     private boolean status = true;
 
+    //    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "maKhangHang")
     KhachHang khachHang;
