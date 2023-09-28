@@ -1,19 +1,32 @@
 package fa.com.mock_back_end.service.impl;
 
+import fa.com.mock_back_end.dto.NhaCungCapDTO;
 import fa.com.mock_back_end.entity.NhaCungCap;
 import fa.com.mock_back_end.repository.NhaCungCapRepository;
 import fa.com.mock_back_end.service.NhaCungCapService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class NhaCungCapServiceImpl implements NhaCungCapService {
 
     @Autowired
     NhaCungCapRepository nhaCungCapRepository;
+
+    @Autowired
+    ModelMapper modelMapper;
+
+    @Override
+    public List<NhaCungCapDTO> findAllDTO() {
+        return findAll().stream()
+                .map(this::getNhaCungCapDTO)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public List<NhaCungCap> findAll() {
@@ -51,5 +64,9 @@ public class NhaCungCapServiceImpl implements NhaCungCapService {
             return nhaCungCapRepository.save(nhaCungCap.get());
         }
         return null;
+    }
+
+    private NhaCungCapDTO getNhaCungCapDTO(NhaCungCap nhaCungCap){
+        return modelMapper.map(nhaCungCap, NhaCungCapDTO.class);
     }
 }

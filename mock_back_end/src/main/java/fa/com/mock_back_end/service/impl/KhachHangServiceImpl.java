@@ -1,19 +1,31 @@
 package fa.com.mock_back_end.service.impl;
 
+import fa.com.mock_back_end.dto.KhachHangDTO;
 import fa.com.mock_back_end.entity.KhachHang;
 import fa.com.mock_back_end.repository.KhachHangRepository;
 import fa.com.mock_back_end.service.KhachHangService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class KhachHangServiceImpl implements KhachHangService {
 
     @Autowired
     KhachHangRepository khachHangRepository;
+
+    @Autowired
+    ModelMapper modelMapper;
+    @Override
+    public List<KhachHangDTO> findAllDTO() {
+        return findAll().stream()
+                .map(this::getKhachHangDTO)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public List<KhachHang> findAll() {
@@ -43,5 +55,9 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Override
     public KhachHang update(KhachHang item) {
         return null;
+    }
+
+    private KhachHangDTO getKhachHangDTO(KhachHang khachHang){
+        return modelMapper.map(khachHang, KhachHangDTO.class);
     }
 }

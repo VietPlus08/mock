@@ -31,6 +31,10 @@ public class ChiTietHDNHServiceImpl implements ChiTietHDNHService {
         return chiTietHDNHRepository.save(data);
     }
 
+    public void saveAll(List<ChiTietHoaDonNhapHang> listData){
+        chiTietHDNHRepository.saveAll(listData);
+    }
+
     @Override
     public ChiTietHoaDonNhapHang delete(Long id) {
         Optional<ChiTietHoaDonNhapHang> chiTietHoaDonNhapHang = findById(id);
@@ -46,7 +50,6 @@ public class ChiTietHDNHServiceImpl implements ChiTietHDNHService {
         Optional<ChiTietHoaDonNhapHang> chiTietHoaDonNhapHang = findById(data.getMaChiTietHoaDonNhapHang());
         if (chiTietHoaDonNhapHang.isPresent()) {
             chiTietHoaDonNhapHang.get().setSoLuong(data.getSoLuong());
-            chiTietHoaDonNhapHang.get().setGiaTien(data.getGiaTien());
             chiTietHoaDonNhapHang.get().setSanPham(data.getSanPham());
             chiTietHDNHRepository.save(chiTietHoaDonNhapHang.get());
         }

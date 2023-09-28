@@ -1,5 +1,6 @@
 package fa.com.mock_back_end.controller;
 
+import fa.com.mock_back_end.dto.NhanVienDTO;
 import fa.com.mock_back_end.entity.NhanVien;
 import fa.com.mock_back_end.service.NhanVienService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class NhanVienController {
     NhanVienService nhanVienService;
 
     @GetMapping("")
-    public ResponseEntity<List<NhanVien>> getList(){
-        return ResponseEntity.ok().body(nhanVienService.findAll());
+    public ResponseEntity<List<NhanVienDTO>> getList(){
+        return ResponseEntity.ok().body(nhanVienService.findAllDTO());
     }
 
     @DeleteMapping("")

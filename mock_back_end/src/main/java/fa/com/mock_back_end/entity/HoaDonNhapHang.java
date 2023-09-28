@@ -1,5 +1,6 @@
 package fa.com.mock_back_end.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 public class HoaDonNhapHang {
     @Id
@@ -28,4 +28,12 @@ public class HoaDonNhapHang {
 
     @OneToMany(mappedBy = "hoaDonNhapHang", fetch = FetchType.EAGER)
     List<ChiTietHoaDonNhapHang> listChiTietHoaDonNhapHang;
+
+    public HoaDonNhapHang() {
+        this.thoiGianNhapHang = LocalDateTime.now();
+    }
+
+    public HoaDonNhapHang(Long maHoaDonNhapHang){
+        this.maHoaDonNhapHang = maHoaDonNhapHang;
+    }
 }

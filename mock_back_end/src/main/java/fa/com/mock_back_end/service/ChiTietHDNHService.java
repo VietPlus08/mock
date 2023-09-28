@@ -10,6 +10,7 @@ public interface ChiTietHDNHService {
     List<ChiTietHoaDonNhapHang> findAll();
     Optional<ChiTietHoaDonNhapHang> findById(Long id);
     ChiTietHoaDonNhapHang save(ChiTietHoaDonNhapHang item);
+    void saveAll(List<ChiTietHoaDonNhapHang> listData);
     ChiTietHoaDonNhapHang delete(Long id);
     ChiTietHoaDonNhapHang update(ChiTietHoaDonNhapHang item);
 }

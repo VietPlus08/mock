@@ -1,5 +1,6 @@
 package fa.com.mock_back_end.controller;
 
+import fa.com.mock_back_end.dto.SanPhamDTO;
 import fa.com.mock_back_end.entity.SanPham;
 import fa.com.mock_back_end.service.SanPhamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,11 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+/**
+* @Author QUANGNA7
+* @Version 1.0
+* @Since 9/28/2023
+*/
 @RestController
 @RequestMapping("/san_pham")
 @CrossOrigin("http://localhost:3000/")
@@ -17,14 +23,9 @@ public class SanPhamController {
     @Autowired
     SanPhamService sanPhamService;
 
-    @GetMapping("/init")
-    public void setInit(){
-        sanPhamService.save(new SanPham(null,"1","1","3",1L,1L,"Vang","32GB","Tô","url..."));
-    }
-
     @GetMapping("")
-    public ResponseEntity<List<SanPham>> getList(){
-        return ResponseEntity.ok().body(sanPhamService.findAll());
+    public ResponseEntity<List<SanPhamDTO>> getList(){
+        return ResponseEntity.ok().body(sanPhamService.findAllDTO());
     }
 
     @DeleteMapping("")

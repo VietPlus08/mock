@@ -1,20 +1,33 @@
 package fa.com.mock_back_end.service.impl;
 
+import fa.com.mock_back_end.dto.NhanVienDTO;
 import fa.com.mock_back_end.entity.NhanVien;
 import fa.com.mock_back_end.generator.Generator;
 import fa.com.mock_back_end.repository.NhanVienRepository;
 import fa.com.mock_back_end.service.NhanVienService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class NhanVienServiceImpl implements NhanVienService {
 
     @Autowired
     NhanVienRepository nhanVienRepository;
+
+    @Autowired
+    ModelMapper modelMapper;
+
+    @Override
+    public List<NhanVienDTO> findAllDTO() {
+        return findAll().stream()
+                .map(this::getNhanVienDTO)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public List<NhanVien> findAll() {
@@ -56,5 +69,9 @@ public class NhanVienServiceImpl implements NhanVienService {
             return save(nhanVien.get());
         }
         return null;
+    }
+
+    private NhanVienDTO getNhanVienDTO(NhanVien nhanVien){
+        return modelMapper.map(nhanVien, NhanVienDTO.class);
     }
 }

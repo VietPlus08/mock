@@ -1,19 +1,36 @@
 package fa.com.mock_back_end.service.impl;
 
+import fa.com.mock_back_end.dto.SanPhamDTO;
 import fa.com.mock_back_end.entity.SanPham;
 import fa.com.mock_back_end.repository.SanPhamRepository;
 import fa.com.mock_back_end.service.SanPhamService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SanPhamServiceImpl implements SanPhamService {
 
     @Autowired
     SanPhamRepository sanPhamRepository;
+
+    @Autowired
+    ModelMapper modelMapper;
+
+    @Override
+    public List<SanPhamDTO> findAllDTO() {
+        return findAll().stream()
+                .map(this::getSanPhamDTO)
+                .collect(Collectors.toList());
+    }
+
+    public SanPhamDTO getSanPhamDTO(SanPham sanPham){
+        return modelMapper.map(sanPham, SanPhamDTO.class);
+    }
 
     @Override
     public List<SanPham> findAll() {
@@ -52,7 +69,7 @@ public class SanPhamServiceImpl implements SanPhamService {
             sanPham.get().setMauSac(updateSanPham.getMauSac());
             sanPham.get().setRam(updateSanPham.getRam());
             sanPham.get().setCamera(updateSanPham.getCamera());
-            sanPham.get().setImageUrl(updateSanPham.getImageUrl());
+            sanPham.get().setImgUrl(updateSanPham.getImgUrl());
             return save(sanPham.get());
         }
         return null;
