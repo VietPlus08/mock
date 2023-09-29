@@ -70,6 +70,8 @@ public class SanPhamServiceImpl implements SanPhamService {
             sanPham.get().setRam(updateSanPham.getRam());
             sanPham.get().setCamera(updateSanPham.getCamera());
             sanPham.get().setImgUrl(updateSanPham.getImgUrl());
+            sanPham.get().setListChiTietHoaDonNhapHang(null);
+            sanPham.get().setListChiTietHoaDonBanHang(null);
             return save(sanPham.get());
         }
         return null;

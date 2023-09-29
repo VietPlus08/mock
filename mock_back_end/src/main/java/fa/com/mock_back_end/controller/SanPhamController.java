@@ -29,7 +29,7 @@ public class SanPhamController {
     }
 
     @DeleteMapping("")
-    public ResponseEntity<SanPham> deleteItem(@RequestParam("id") Long id) {
+    public ResponseEntity<SanPham> deleteItem(@RequestParam(value = "id") Long id) {
         SanPham sanPham = sanPhamService.delete(id);
         if (sanPham != null) {
             return ResponseEntity.ok().build();

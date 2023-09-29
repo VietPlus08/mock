@@ -52,7 +52,9 @@ public class HDNHServiceImpl implements HDNHService {
     public HoaDonNhapHang save(NhapHangDTO data) {
         List<ChiTietNhapHangDTO> listChiTietHoaDonNhapHangDTO = data.getChiTietHoaDonNhapHangDTO();
         HoaDonNhapHang nhapHang = new HoaDonNhapHang();
-        nhapHang.setNhaCungCap(new NhaCungCap(data.getMaNhaCungCap()));
+        if (data.getMaNhaCungCap() != 0) {
+            nhapHang.setNhaCungCap(new NhaCungCap(data.getMaNhaCungCap()));
+        }
         nhapHang.setTongHoaDon(getTongTien(listChiTietHoaDonNhapHangDTO));
         HoaDonNhapHang savedHoaDonNhapHang = hdnhRepository.save(nhapHang);
         // set MaHoaDon vào từng chi tiết hóa đơn trước khi lưu
@@ -102,10 +104,11 @@ public class HDNHServiceImpl implements HDNHService {
         chiTietHoaDonNhapHang.setHoaDonNhapHang(new HoaDonNhapHang(maHoaDonNhapHang));
         return chiTietHoaDonNhapHang;
     }
-
+    // ko luu duoc maSanPham vao ChiTietHoaDonNhapHang
     private NhapHangDTO getNhapHangDTO(HoaDonNhapHang nhapHang) {
         NhapHangDTO nhapHangDTO = modelMapper.map(nhapHang, NhapHangDTO.class);
-        NhaCungCap nhaCungCap = nhapHang.getNhaCungCap();
+        NhaCungCap nhaCungCap = nhapHang.getNhaCungCap() == null
+                ? null : nhapHang.getNhaCungCap();
         if (nhaCungCap != null) {
             nhapHangDTO.setMaNhaCungCap(nhaCungCap.getMaNhaCungCap());
             nhapHangDTO.setTenNhaCungCap(nhaCungCap.getTenNhaCungCap());

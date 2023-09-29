@@ -53,7 +53,15 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
-    public KhachHang update(KhachHang item) {
+    public KhachHang update(KhachHang data) {
+        Optional<KhachHang> khachHang = findById(data.getMaKhachHang());
+        if (khachHang.isPresent()){
+            khachHang.get().setTenKhachHang(data.getTenKhachHang());
+            khachHang.get().setGioiTinh(data.getGioiTinh());
+            khachHang.get().setNgaySinh(data.getNgaySinh());
+            khachHang.get().setSoDienThoai(data.getSoDienThoai());
+            return khachHangRepository.save(khachHang.get());
+        }
         return null;
     }
 

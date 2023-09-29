@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -61,6 +62,7 @@ public class NhaCungCapServiceImpl implements NhaCungCapService {
             nhaCungCap.get().setEmail(data.getEmail());
             nhaCungCap.get().setDiaChi(data.getDiaChi());
             nhaCungCap.get().setSoDienThoai(data.getSoDienThoai());
+            nhaCungCap.get().setListHoaDonNhapHang(null);
             return nhaCungCapRepository.save(nhaCungCap.get());
         }
         return null;
