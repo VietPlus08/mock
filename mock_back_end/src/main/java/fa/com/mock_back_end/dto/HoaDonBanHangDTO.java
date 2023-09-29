@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -19,6 +20,9 @@ public class HoaDonBanHangDTO {
     private LocalDateTime thoiGianBanHang;
     private long tongHoaDon;
     private boolean status = true;
+
+    private Map<String, String> errors ; // Khởi tạo hoặc lấy danh sách lỗ
+
     @JsonIgnore
     private KhachHang khachHang;
 

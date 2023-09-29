@@ -19,4 +19,10 @@ public class DanhSachQuanLyGiaoDichDTO {
     private LocalDateTime thoiGianBanHang;
     private Long tongHoaDon;
     List<ChiTietHoaDonBanHangDTO> chiTietHoaDonBanHang;
+
+    public <U> DanhSachQuanLyGiaoDichDTO(Object maChiTietHoaDonBanHang, U u, U u1, U u2, Object soLuong, Object giaNiemYetHienTai, Object giaBanThuc) {
+    }
+
+    public DanhSachQuanLyGiaoDichDTO(Long maHoaDonBanHang, String s, Long aLong, LocalDateTime thoiGianBanHang) {
+    }
 }

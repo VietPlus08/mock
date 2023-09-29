@@ -20,12 +20,13 @@ public class ChiTietHoaDonBanHangDTO {
     private String tenSanPham;
     private Long maHoaDonBanHang;
 
-
     private int soLuong;
     private long giaNiemYetHienTai;
     private long giaBanThuc;
 
 
+    public ChiTietHoaDonBanHangDTO(Long maChiTietHoaDonBanHang, Object o, Object o1, Object o2, int soLuong, long giaNiemYetHienTai, long giaBanThuc) {
+    }
 }
 
 
