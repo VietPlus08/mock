@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/nha_cung_cap")
 @CrossOrigin("http://localhost:3000/")
 public class NhaCungCapController {

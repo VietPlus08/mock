@@ -15,7 +15,7 @@ import java.util.List;
  * @Version 1.0
  * @Since 9/28/2023
  */
-@Controller
+@RestController
 @RequestMapping("/nhap_hang")
 @CrossOrigin("http://localhost:3000/")
 public class NhapHangController {

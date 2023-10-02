@@ -15,8 +15,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -134,7 +132,7 @@ public class BanHangController {
         // update số lượng sản phầm tổng kho
         for (TongHopHoaDonDTO items : listChiTietHoaDon) {
             SanPham sanPham = sanPhamService.findById(items.getMaSanPham()).orElse(new SanPham());
-            sanPham.setSoLuong(sanPham.getSoLuong() - items.getSoLuong());
+            sanPham.setSoLuong(-items.getSoLuong());
             sanPhamService.save(sanPham);
         }
 
@@ -165,25 +163,4 @@ public class BanHangController {
         success.put("Success", "Hoa don duoc luu thanh cong ");
         return ResponseEntity.ok(success);
     }
-
-    /**
-     * @return Map<String, String>
-     * @Author Nguyễn Xuân Long
-     * Xử lý dữ liệu nhận về không hợp lệ
-     */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-
-        ex.getBindingResult().getAllErrors().forEach(error -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-
-        return errors;
-    }
-
-
 }

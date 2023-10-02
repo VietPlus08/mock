@@ -18,5 +18,4 @@ public class ThongKeController {
     public ResponseEntity<ThongKeDTO> getThongKe(@RequestBody ThongKeDTO thongKeDTO){
         return ResponseEntity.ok(thongKeService.getThongKe(thongKeDTO));
     }
-
 }
