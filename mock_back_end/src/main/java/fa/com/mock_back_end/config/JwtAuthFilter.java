@@ -1,7 +1,13 @@
 package fa.com.mock_back_end.config;
 
-import fa.com.mock_back_end.service.impl.JwtServiceImpl;
-import fa.com.mock_back_end.service.impl.UserInforServiceImpl;
+import java.io.IOException;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,12 +15,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.WebUtils;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import fa.com.mock_back_end.service.impl.JwtServiceImpl;
+import fa.com.mock_back_end.service.impl.UserInforServiceImpl;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -28,11 +32,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 	    throws ServletException, IOException {
-	String authHeader = request.getHeader("Authorization");
+	Cookie cookie = WebUtils.getCookie(request, "jwtToken");
 	String token = null;
 	String username = null;
-	if (authHeader != null && authHeader.startsWith("Bearer ")) {
-	    token = authHeader.substring(7);
+	if (cookie != null) {
+	    token = cookie.getValue();
 	    username = jwtServiceImpl.extractUsername(token);
 	}
 
@@ -47,4 +51,5 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 	}
 	filterChain.doFilter(request, response);
     }
+
 }

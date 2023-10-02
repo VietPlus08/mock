@@ -1,6 +1,5 @@
 package fa.com.mock_back_end.config;
 
-import fa.com.mock_back_end.service.impl.UserInforServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,60 +17,49 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import fa.com.mock_back_end.service.impl.UserInforServiceImpl;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserInforServiceImpl();
+	return new UserInforServiceImpl();
     }
 
     @Bean
     public JwtAuthFilter authFilter() {
-        return new JwtAuthFilter();
+	return new JwtAuthFilter();
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(
-                        auth -> auth
-                                .antMatchers("/home", "/login", "/register").permitAll()
-                                .antMatchers("/admin/**").hasRole("ADMIN")
-                                .antMatchers("/staff/**").hasRole("STAFF")
-                                .anyRequest().authenticated()
-                )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider())
-                .addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class).build();
+	return http.csrf(AbstractHttpConfigurer::disable)
+		.authorizeHttpRequests(auth -> auth.antMatchers("/home", "/login", "/register").permitAll()
+			.antMatchers("/admin/**").hasRole("ADMIN").antMatchers("/staff/**").hasRole("STAFF")
+			.anyRequest().authenticated())
+		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+		.authenticationProvider(authenticationProvider())
+		.addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class).build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+	return new BCryptPasswordEncoder();
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService());
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
-        return authenticationProvider;
+	DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+	authenticationProvider.setUserDetailsService(userDetailsService());
+	authenticationProvider.setPasswordEncoder(passwordEncoder());
+	return authenticationProvider;
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+	return config.getAuthenticationManager();
     }
 
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("https://localhost:3000"));
-//        configuration.setAllowedMethods(Arrays.asList("GET", "POST"));
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
 }

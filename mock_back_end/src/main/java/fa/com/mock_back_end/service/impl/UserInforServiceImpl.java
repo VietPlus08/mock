@@ -37,22 +37,34 @@ public class UserInforServiceImpl implements UserInforService {
 		.orElseThrow(() -> new UsernameNotFoundException("Account not found" + username));
     }
 
+    /**
+     * @author ThangDN8 Lưu 1 nhân viên mới vào database. Tự tạo mã nhân viên dựa
+     *         theo họ tên nhân viên và đánh số cho mã nhân viên nếu có mã trùng
+     *         trong database.
+     */
     public String addUser(NhanVienDTOThangDN8 nhanVienDTO) {
 	// Tự tạo mã nhân viên dựa trên họ tên
 	Transliterator transliterator = Transliterator.getInstance("Any-Latin; NFD; [:Nonspacing Mark:] Remove; NFC");
-	String asciiHoTen = transliterator.transliterate(nhanVienDTO.getTenNhanVien());
-	String[] arrayHoTen = asciiHoTen.split(" ");
-	StringBuffer maNhanVien = new StringBuffer(arrayHoTen[arrayHoTen.length - 1]);
+	String asciiHoTen = transliterator.transliterate(nhanVienDTO.getTenNhanVien().trim());
+
+	String[] arrayHoTen = asciiHoTen.split(" "); // Tạo mảng chứa các từ trong họ tên
+	StringBuffer maNhanVien = new StringBuffer(arrayHoTen[arrayHoTen.length - 1]); // Lấy tên
+	// Add ký tự đầu tiên của họ và tên đệm vào đuôi của tên
 	StringBuffer firstChar = new StringBuffer("");
 	for (int i = 0; i < arrayHoTen.length - 1; i++) {
 	    firstChar.append(arrayHoTen[i].charAt(0));
 	}
 	maNhanVien.append(firstChar);
+	/**
+	 * Kiểm tra trong database có bao nhiêu người trùng với mã nhân viên vừa được
+	 * tạo, sau đó thêm số vào đuôi mã nhân viên dựa theo số lượng đã có trước đó
+	 */
 	List<String> maNVList = nhanVienRepository.getListMaNhanVien(maNhanVien.toString());
 	if (!maNVList.isEmpty()) {
 	    maNhanVien.append(maNVList.size());
 	}
 
+	// Tạo instance NhanVien từ NhanVienDTO
 	NhanVien nhanVien = new NhanVien();
 	nhanVien.setMaNhanVien(maNhanVien.toString());
 	nhanVien.setTenNhanVien(nhanVienDTO.getTenNhanVien());
