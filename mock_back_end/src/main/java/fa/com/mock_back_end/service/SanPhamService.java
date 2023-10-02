@@ -11,7 +11,9 @@ public interface SanPhamService {
     List<SanPhamDTO> findAllDTO();
     List<SanPham> findAll();
     Optional<SanPham> findById(Long id);
-    SanPham save(SanPham sanPham);
-    SanPham delete(Long id);
-    SanPham update(SanPham sanPhamData);
+    Optional<SanPhamDTO> findDTOById(Long id);
+    SanPhamDTO save(SanPhamDTO sanPham);
+    SanPhamDTO delete(Long id);
+    SanPhamDTO update(SanPhamDTO data);
+    void updateInventory(long maSanPham, int soLuong);
 }

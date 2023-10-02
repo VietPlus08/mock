@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 
 /**
 * @Author: QUANGNA7
@@ -15,11 +18,14 @@ import javax.persistence.Column;
 @Setter
 public class SanPhamDTO {
 
-    private Long maSanPham;
+    private long maSanPham;
+    @Pattern(regexp = "[A-Za-z0-9\\s.]+", message = "{HO_TEN}")
     private String tenSanPham;
     private String nhanHang;
     private String boNhoTrong;
     private String cpu;
+    @Min(value = 1, message = "{MIN_GIA_TRI}")
+    @Max(value = 999999999, message = "{MAX_GIA_TRI}")
     private long giaVon;
     private long giaNiemYet;
     private String mauSac;

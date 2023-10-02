@@ -23,34 +23,50 @@ public class SanPhamController {
     @Autowired
     SanPhamService sanPhamService;
 
+    /**
+    * @Description getList
+    * @Param
+    * @Return List<SanPhamDTO>
+    */
     @GetMapping("")
     public ResponseEntity<List<SanPhamDTO>> getList(){
         return ResponseEntity.ok().body(sanPhamService.findAllDTO());
     }
 
+    /**
+    * @Description deleteItem
+    * @Param id
+    * @Return SanPhamDTO
+    */
     @DeleteMapping("")
-    public ResponseEntity<SanPham> deleteItem(@RequestParam(value = "id") Long id) {
-        SanPham sanPham = sanPhamService.delete(id);
+    public ResponseEntity<SanPhamDTO> deleteItem(@RequestParam(value = "id") Long id) {
+        SanPhamDTO sanPham = sanPhamService.delete(id);
         if (sanPham != null) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping(value = "/edit")
-    public ResponseEntity<SanPham> findItem(@RequestParam("id") Long id) {
-        Optional<SanPham> sanPham = sanPhamService.findById(id);
-        return sanPham.map(item -> ResponseEntity.ok().body(item))
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
+    /**
+    * @Description createItem
+    * @Param sanPham
+    * @Return SanPhamDTO
+    */
     @PostMapping(value = "")
-    public ResponseEntity<SanPham> createItem(@Valid @RequestBody SanPham sanPham) {
+    public ResponseEntity<SanPhamDTO> createItem(@Valid @RequestBody SanPhamDTO sanPham) {
         return ResponseEntity.ok().body(sanPhamService.save(sanPham));
     }
 
+    /**
+    * @Description updateItem
+    * @Param sanPham
+    * @Return SanPhamDTO
+    */
     @PutMapping(value = "")
-    public ResponseEntity<SanPham> updateItem(@Valid @RequestBody SanPham updateSanPham) {
-        return ResponseEntity.ok().body(sanPhamService.update(updateSanPham));
+    public ResponseEntity<SanPhamDTO> updateItem(@Valid @RequestBody SanPhamDTO updateSanPham) {
+        SanPhamDTO sanPhamDTOResponse = sanPhamService.update(updateSanPham);
+        return sanPhamDTOResponse == null
+                ? ResponseEntity.badRequest().build()
+                : ResponseEntity.ok().body(sanPhamDTOResponse);
     }
 }

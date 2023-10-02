@@ -5,7 +5,6 @@ import fa.com.mock_back_end.entity.KhachHang;
 import fa.com.mock_back_end.service.KhachHangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@Controller
+@RestController
 @RequestMapping("/khach_hang")
 @CrossOrigin("http://localhost:3000/")
 public class KhachHangController {
@@ -27,8 +26,8 @@ public class KhachHangController {
     }
 
     @DeleteMapping("")
-    public ResponseEntity<KhachHang> deleteItem(@RequestParam("id") Long id) {
-        KhachHang khachHang = khachHangService.delete(id);
+    public ResponseEntity<KhachHangDTO> deleteItem(@RequestParam("id") Long id) {
+        KhachHangDTO khachHang = khachHangService.delete(id);
         if (khachHang != null) {
             return ResponseEntity.ok().build();
         }
@@ -36,19 +35,19 @@ public class KhachHangController {
     }
 
     @GetMapping(value = "/edit")
-    public ResponseEntity<KhachHang> findItem(@RequestParam("id") Long id) {
-        Optional<KhachHang> khachHang = khachHangService.findById(id);
+    public ResponseEntity<KhachHangDTO> findItem(@RequestParam("id") Long id) {
+        Optional<KhachHangDTO> khachHang = khachHangService.findDTOById(id);
         return khachHang.map(item -> ResponseEntity.ok().body(item))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<KhachHang> createItem(@Valid @RequestBody KhachHang khachHang) {
+    public ResponseEntity<KhachHangDTO> createItem(@Valid @RequestBody KhachHangDTO khachHang) {
         return ResponseEntity.ok().body(khachHangService.save(khachHang));
     }
 
     @PutMapping(value = "")
-    public ResponseEntity<KhachHang> updateItem(@Valid @RequestBody KhachHang khachHang) {
+    public ResponseEntity<KhachHangDTO> updateItem(@Valid @RequestBody KhachHangDTO khachHang) {
         return ResponseEntity.ok().body(khachHangService.update(khachHang));
     }
 }

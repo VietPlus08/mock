@@ -1,10 +1,10 @@
 package fa.com.mock_back_end.dto;
 
-import fa.com.mock_back_end.entity.ChiTietHoaDonBanHang;
-import fa.com.mock_back_end.entity.HoaDonBanHang;
+import com.sun.istack.internal.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -12,8 +12,11 @@ import java.util.List;
 @Setter
 public class ThongKeDTO {
     // các trường request
+    @NotNull
     LocalDate thoiGianBatDau;
+    @NotNull
     LocalDate thoiGianKetThuc;
+    @Pattern(regexp = "thongKeSanPham|thongKeNhanVien")
     String loaiThongKe;
     // các trường reponse
     long tongSoLuong;

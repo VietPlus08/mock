@@ -10,6 +10,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+* @Author QUANGNA7
+* @Version 1.0
+* @Since 10/2/2023
+*/
 @Service
 public class ChiTietHDNHServiceImpl implements ChiTietHDNHService {
 
@@ -31,7 +36,7 @@ public class ChiTietHDNHServiceImpl implements ChiTietHDNHService {
         return chiTietHDNHRepository.save(data);
     }
 
-    public void saveAll(List<ChiTietHoaDonNhapHang> listData){
+    public void saveAll(List<ChiTietHoaDonNhapHang> listData) {
         chiTietHDNHRepository.saveAll(listData);
     }
 
@@ -53,6 +58,6 @@ public class ChiTietHDNHServiceImpl implements ChiTietHDNHService {
             chiTietHoaDonNhapHang.get().setSanPham(data.getSanPham());
             chiTietHDNHRepository.save(chiTietHoaDonNhapHang.get());
         }
-            return null;
+        return null;
     }
 }

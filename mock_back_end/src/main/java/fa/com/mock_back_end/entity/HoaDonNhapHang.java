@@ -10,6 +10,11 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+* @Author QUANGNA7
+* @Version 1.0
+* @Since 10/2/2023
+*/
 @Entity
 @Getter
 @Setter

@@ -8,6 +8,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+* @Author QUANGNA7
+* @Version 1.0
+* @Since 10/2/2023
+*/
 @Entity
 @Getter
 @Setter

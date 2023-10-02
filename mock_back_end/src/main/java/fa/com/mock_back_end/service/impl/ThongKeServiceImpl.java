@@ -58,6 +58,11 @@ public class ThongKeServiceImpl {
         });
     }
 
+    /**
+    * @Description findListNhanVienDTO
+    * @Param thongKeDTO
+    * @Return NhanVienDTO
+    */
     private List<NhanVienDTO> findListNhanVienDTO(ThongKeDTO thongKeDTO){
         return nhanVienService.findAll().stream()
                 .map(i -> getNhanVienDTO(i, thongKeDTO))
@@ -83,7 +88,7 @@ public class ThongKeServiceImpl {
     }
 
     private void thongKeSanPhamProcess(ThongKeDTO thongKeDTO) {
-        List<SanPhamDTO> listSanPhamDTO = findListSanPhamDTO(thongKeDTO); // ko truyền xuống thongKeDTO
+        List<SanPhamDTO> listSanPhamDTO = findListSanPhamDTO(thongKeDTO);
         thongKeDTO.setListSanPham(listSanPhamDTO);
         listSanPhamDTO.forEach(i -> {
             thongKeDTO.setTongDoanhThu(i.getDoanhThu());

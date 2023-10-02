@@ -10,8 +10,9 @@ public interface KhachHangService {
 
     List<KhachHangDTO> findAllDTO();
     List<KhachHang> findAll();
+    Optional<KhachHangDTO> findDTOById(Long id);
     Optional<KhachHang> findById(Long id);
-    KhachHang save(KhachHang item);
-    KhachHang delete(Long id);
-    KhachHang update(KhachHang item);
+    KhachHangDTO save(KhachHangDTO item);
+    KhachHangDTO delete(Long id);
+    KhachHangDTO update(KhachHangDTO item);
 }

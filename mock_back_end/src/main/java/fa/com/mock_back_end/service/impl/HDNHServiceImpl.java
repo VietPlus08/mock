@@ -10,6 +10,7 @@ import fa.com.mock_back_end.entity.SanPham;
 import fa.com.mock_back_end.repository.HDNHRepository;
 import fa.com.mock_back_end.service.ChiTietHDNHService;
 import fa.com.mock_back_end.service.HDNHService;
+import fa.com.mock_back_end.service.SanPhamService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+* @Author QUANGNA7
+* @Version 1.0
+* @Since 10/2/2023
+*/
 @Service
 public class HDNHServiceImpl implements HDNHService {
 
@@ -27,6 +33,9 @@ public class HDNHServiceImpl implements HDNHService {
 
     @Autowired
     ChiTietHDNHService chiTietHDNHService;
+
+    @Autowired
+    SanPhamService sanPhamService;
 
     @Autowired
     ModelMapper modelMapper;
@@ -49,19 +58,21 @@ public class HDNHServiceImpl implements HDNHService {
     }
 
     @Override
-    public HoaDonNhapHang save(NhapHangDTO data) {
+    public NhapHangDTO save(NhapHangDTO data) {
         List<ChiTietNhapHangDTO> listChiTietHoaDonNhapHangDTO = data.getChiTietHoaDonNhapHangDTO();
         HoaDonNhapHang nhapHang = new HoaDonNhapHang();
         if (data.getMaNhaCungCap() != 0) {
             nhapHang.setNhaCungCap(new NhaCungCap(data.getMaNhaCungCap()));
         }
         nhapHang.setTongHoaDon(getTongTien(listChiTietHoaDonNhapHangDTO));
+        // lưu hóa đơn
         HoaDonNhapHang savedHoaDonNhapHang = hdnhRepository.save(nhapHang);
-        // set MaHoaDon vào từng chi tiết hóa đơn trước khi lưu
+        // lưu chi tiết hóa đơn
         List<ChiTietHoaDonNhapHang> listChiTietHoaDonNhapHang = getListChiTietHoaDonNhapHang(listChiTietHoaDonNhapHangDTO, savedHoaDonNhapHang.getMaHoaDonNhapHang());
         chiTietHDNHService.saveAll(listChiTietHoaDonNhapHang);
+        // set chi tiết hóa đơn vào data response
         savedHoaDonNhapHang.setListChiTietHoaDonNhapHang(listChiTietHoaDonNhapHang);
-        return savedHoaDonNhapHang;
+        return getNhapHangDTO(savedHoaDonNhapHang);
     }
 
     @Override
@@ -75,37 +86,46 @@ public class HDNHServiceImpl implements HDNHService {
     }
 
     @Override
-    public HoaDonNhapHang update(HoaDonNhapHang data) {
-        Optional<HoaDonNhapHang> hoaDonNhapHang = findById(data.getMaHoaDonNhapHang());
-        if (hoaDonNhapHang.isPresent()) {
-            hoaDonNhapHang.get().setTongHoaDon(data.getTongHoaDon());
-            hoaDonNhapHang.get().setNhaCungCap(data.getNhaCungCap());
-            return hdnhRepository.save(hoaDonNhapHang.get());
-        }
-        return null;
+    public NhapHangDTO update(NhapHangDTO nhapHangDTO) {
+        return nhapHangDTO == null || nhapHangDTO.getMaHoaDonNhapHang() == 0
+                ? null
+                : save(nhapHangDTO);
     }
 
-    private static long getTongTien(List<ChiTietNhapHangDTO> listChiTietNhapHangDTO) {
+    public long getTongTien(List<ChiTietNhapHangDTO> listChiTietNhapHangDTO) {
+        List<SanPham> sanPhams = sanPhamService.findAll();
+        Long giaVon = sanPhams.stream().filter(i -> i.getMaSanPham() == 1).mapToLong(SanPham::getGiaVon).findAny().orElse(0);
         return listChiTietNhapHangDTO.stream()
-                .mapToLong(i -> i.getSanPhamDTO().getGiaVon() * i.getSoLuong())
+                .mapToLong(i -> getGiaVon(sanPhams, i.getSanPhamDTO().getMaSanPham()) * i.getSoLuong())
                 .sum();
     }
 
-    private List<ChiTietHoaDonNhapHang> getListChiTietHoaDonNhapHang(List<ChiTietNhapHangDTO> listChiTietNhapHangDTO,
-                                                                     long maHoaDonNhapHang) {
+    public long getGiaVon(List<SanPham> list, long maSanPham){
+        return list.stream()
+                .filter(i -> i.getMaSanPham() == maSanPham)
+                .mapToLong(SanPham::getGiaVon)
+                .findAny()
+                .orElse(0);
+    }
+
+    public List<ChiTietHoaDonNhapHang> getListChiTietHoaDonNhapHang(List<ChiTietNhapHangDTO> listChiTietNhapHangDTO,
+                                                                    long maHoaDonNhapHang) {
         return listChiTietNhapHangDTO.stream()
                 .map(i -> getChiTietHoaDonNhapHang(i, maHoaDonNhapHang))
                 .collect(Collectors.toList());
     }
 
-    private ChiTietHoaDonNhapHang getChiTietHoaDonNhapHang(ChiTietNhapHangDTO chiTietNhapHangDTO,
-                                                           long maHoaDonNhapHang) {
+    public ChiTietHoaDonNhapHang getChiTietHoaDonNhapHang(ChiTietNhapHangDTO chiTietNhapHangDTO,
+                                                          long maHoaDonNhapHang) {
         ChiTietHoaDonNhapHang chiTietHoaDonNhapHang = modelMapper.map(chiTietNhapHangDTO, ChiTietHoaDonNhapHang.class);
         chiTietHoaDonNhapHang.setHoaDonNhapHang(new HoaDonNhapHang(maHoaDonNhapHang));
+        chiTietHoaDonNhapHang.setSanPham(new SanPham(chiTietNhapHangDTO.getSanPhamDTO().getMaSanPham()));
+        // điều chỉnh hàng tồn kho (số lượng trong sản phẩm)
+        sanPhamService.updateInventory(chiTietNhapHangDTO.getSanPhamDTO().getMaSanPham(), chiTietNhapHangDTO.getSoLuong());
         return chiTietHoaDonNhapHang;
     }
-    // ko luu duoc maSanPham vao ChiTietHoaDonNhapHang
-    private NhapHangDTO getNhapHangDTO(HoaDonNhapHang nhapHang) {
+
+    public NhapHangDTO getNhapHangDTO(HoaDonNhapHang nhapHang) {
         NhapHangDTO nhapHangDTO = modelMapper.map(nhapHang, NhapHangDTO.class);
         NhaCungCap nhaCungCap = nhapHang.getNhaCungCap() == null
                 ? null : nhapHang.getNhaCungCap();
@@ -117,7 +137,7 @@ public class HDNHServiceImpl implements HDNHService {
         return nhapHangDTO;
     }
 
-    private List<ChiTietNhapHangDTO> getListChiTietNhapHangDTO(List<ChiTietHoaDonNhapHang> data) {
+    public List<ChiTietNhapHangDTO> getListChiTietNhapHangDTO(List<ChiTietHoaDonNhapHang> data) {
         return data == null
                 ? new ArrayList<>()
                 : data.stream()
@@ -125,13 +145,13 @@ public class HDNHServiceImpl implements HDNHService {
                 .collect(Collectors.toList());
     }
 
-    private ChiTietNhapHangDTO getChiTietNhapHangDTO(ChiTietHoaDonNhapHang chiTietHoaDonNhapHang) {
+    public ChiTietNhapHangDTO getChiTietNhapHangDTO(ChiTietHoaDonNhapHang chiTietHoaDonNhapHang) {
         ChiTietNhapHangDTO chiTietNhapHangDTO = modelMapper.map(chiTietHoaDonNhapHang, ChiTietNhapHangDTO.class);
         chiTietNhapHangDTO.setSanPhamDTO(getSanPhamDTO(chiTietHoaDonNhapHang.getSanPham()));
         return chiTietNhapHangDTO;
     }
 
-    private SanPhamDTO getSanPhamDTO(SanPham sanPham) {
+    public SanPhamDTO getSanPhamDTO(SanPham sanPham) {
         return modelMapper.map(sanPham, SanPhamDTO.class);
     }
 }

@@ -27,8 +27,8 @@ public class NhaCungCapController {
     }
 
     @DeleteMapping("")
-    public ResponseEntity<NhaCungCap> deleteItem(@RequestParam("id") Long id) {
-        NhaCungCap nhaCungCap = nhaCungCapService.delete(id);
+    public ResponseEntity<NhaCungCapDTO> deleteItem(@RequestParam("id") Long id) {
+        NhaCungCapDTO nhaCungCap = nhaCungCapService.delete(id);
         if (nhaCungCap != null) {
             return ResponseEntity.ok().build();
         }
@@ -36,19 +36,19 @@ public class NhaCungCapController {
     }
 
     @GetMapping(value = "/edit")
-    public ResponseEntity<NhaCungCap> findItem(@RequestParam("id") Long id) {
-        Optional<NhaCungCap> nhaCungCap = nhaCungCapService.findById(id);
+    public ResponseEntity<NhaCungCapDTO> findItem(@RequestParam("id") Long id) {
+        Optional<NhaCungCapDTO> nhaCungCap = nhaCungCapService.findDTOById(id);
         return nhaCungCap.map(item -> ResponseEntity.ok().body(item))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<NhaCungCap> createItem(@Valid @RequestBody NhaCungCap nhaCungCap) {
+    public ResponseEntity<NhaCungCapDTO> createItem(@Valid @RequestBody NhaCungCapDTO nhaCungCap) {
         return ResponseEntity.ok().body(nhaCungCapService.save(nhaCungCap));
     }
 
     @PutMapping(value = "")
-    public ResponseEntity<NhaCungCap> updateItem(@Valid @RequestBody NhaCungCap nhaCungCap) {
+    public ResponseEntity<NhaCungCapDTO> updateItem(@Valid @RequestBody NhaCungCapDTO nhaCungCap) {
         return ResponseEntity.ok().body(nhaCungCapService.update(nhaCungCap));
     }
 }

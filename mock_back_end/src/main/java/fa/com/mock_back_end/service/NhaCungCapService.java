@@ -11,7 +11,8 @@ public interface NhaCungCapService {
     List<NhaCungCapDTO> findAllDTO();
     List<NhaCungCap> findAll();
     Optional<NhaCungCap> findById(Long id);
-    NhaCungCap save(NhaCungCap item);
-    NhaCungCap delete(Long id);
-    NhaCungCap update(NhaCungCap item);
+    Optional<NhaCungCapDTO> findDTOById(Long id);
+    NhaCungCapDTO save(NhaCungCapDTO item);
+    NhaCungCapDTO delete(Long id);
+    NhaCungCapDTO update(NhaCungCapDTO item);
 }

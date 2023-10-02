@@ -9,6 +9,11 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+* @Author QUANGNA7
+* @Version 1.0
+* @Since 10/2/2023
+*/
 @Entity
 @Getter
 @Setter
@@ -44,4 +49,12 @@ public class SanPham {
 
     @OneToMany(mappedBy = "sanPham", fetch = FetchType.EAGER)
     List<ChiTietHoaDonBanHang> listChiTietHoaDonBanHang;
+
+    public SanPham(Long maSanPham) {
+        this.maSanPham = maSanPham;
+    }
+
+    public void setSoLuong(int soLuong) {
+        this.soLuong += soLuong;
+    }
 }

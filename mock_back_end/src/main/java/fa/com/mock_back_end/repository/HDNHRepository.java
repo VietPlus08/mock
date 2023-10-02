@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
+/**
+* @Author QUANGNA7
+* @Version 1.0
+* @Since 10/2/2023
+*/
 public interface HDNHRepository extends JpaRepository<HoaDonNhapHang, Long> {
 
     public List<HoaDonNhapHang> findByStatusTrue();
-
-    @Query(value = "insert into HoaDonNhapHang (maNhaCungCap, tongHoaDon, status) values (?1, ?2, ?3)", nativeQuery = true)
-    public void saveByUser(long maNCC, long tong, boolean status);
 }

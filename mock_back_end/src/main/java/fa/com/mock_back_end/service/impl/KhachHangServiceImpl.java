@@ -20,6 +20,7 @@ public class KhachHangServiceImpl implements KhachHangService {
 
     @Autowired
     ModelMapper modelMapper;
+
     @Override
     public List<KhachHangDTO> findAllDTO() {
         return findAll().stream()
@@ -33,39 +34,45 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
+    public Optional<KhachHangDTO> findDTOById(Long id) {
+        Optional<KhachHang> khachHang = khachHangRepository.findById(id);
+        return khachHang.map(hang -> Optional.ofNullable(getKhachHangDTO(hang)))
+                .orElse(null);
+    }
+
+    @Override
     public Optional<KhachHang> findById(Long id) {
         return khachHangRepository.findById(id);
     }
 
     @Override
-    public KhachHang save(KhachHang data) {
-        return khachHangRepository.save(data);
+    public KhachHangDTO save(KhachHangDTO data) {
+        return getKhachHangDTO(khachHangRepository.save(getKhachHang(data)));
     }
 
     @Override
-    public KhachHang delete(Long id) {
+    public KhachHangDTO delete(Long id) {
         Optional<KhachHang> khachHang = findById(id);
         if (khachHang.isPresent()) {
             khachHang.get().setStatus(false);
-            return khachHangRepository.save(khachHang.get());
+            return getKhachHangDTO(khachHangRepository.save(khachHang.get()));
         }
         return null;
     }
 
     @Override
-    public KhachHang update(KhachHang data) {
-        Optional<KhachHang> khachHang = findById(data.getMaKhachHang());
-        if (khachHang.isPresent()){
-            khachHang.get().setTenKhachHang(data.getTenKhachHang());
-            khachHang.get().setGioiTinh(data.getGioiTinh());
-            khachHang.get().setNgaySinh(data.getNgaySinh());
-            khachHang.get().setSoDienThoai(data.getSoDienThoai());
-            return khachHangRepository.save(khachHang.get());
+    public KhachHangDTO update(KhachHangDTO data) {
+        if (data == null || data.getMaKhachHang() == 0) {
+            return null;
         }
-        return null;
+        return getKhachHangDTO(khachHangRepository.save(getKhachHang(data)));
     }
 
-    private KhachHangDTO getKhachHangDTO(KhachHang khachHang){
+    private KhachHangDTO getKhachHangDTO(KhachHang khachHang) {
         return modelMapper.map(khachHang, KhachHangDTO.class);
+    }
+
+    private KhachHang getKhachHang(KhachHangDTO khachHangDTO) {
+        return modelMapper.map(khachHangDTO, KhachHang.class);
     }
 }
