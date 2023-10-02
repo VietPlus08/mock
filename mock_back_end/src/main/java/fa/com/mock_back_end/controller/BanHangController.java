@@ -20,11 +20,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 
-
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.*;
-
 
 
 /**
@@ -57,14 +55,12 @@ public class BanHangController {
     private QuanLyGiaoDichConverTer quanLyGiaoDichConverTer;
 
 
-
-
-/**
- * @Author Nguyễn Xuân Long
- * Get danh sách giao dịch
- * Method Get
- * @return List<DanhSachQuanLyGiaoDichDTO>
- */
+    /**
+     * @return List<DanhSachQuanLyGiaoDichDTO>
+     * @Author Nguyễn Xuân Long
+     * Get danh sách giao dịch
+     * Method Get
+     */
     @GetMapping(value = "/invoice")
     public ResponseEntity<List<DanhSachQuanLyGiaoDichDTO>> getItem() {
         List<DanhSachQuanLyGiaoDichDTO> lyGiaoDichDTO = new ArrayList<>();
@@ -72,15 +68,29 @@ public class BanHangController {
         List<HoaDonBanHang> listHoaDonBanHang = Optional.ofNullable(hdbhService.findAll()).orElse(Collections.emptyList());
 
         for (HoaDonBanHang items : listHoaDonBanHang) {
-            DanhSachQuanLyGiaoDichDTO danhSachQuanLyGiaoDichDTO = quanLyGiaoDichConverTer.toQuanLyGiaoDichDto(items);
+            DanhSachQuanLyGiaoDichDTO danhSachQuanLyGiaoDichDTO = new DanhSachQuanLyGiaoDichDTO();
+            try {
+                danhSachQuanLyGiaoDichDTO = quanLyGiaoDichConverTer.toQuanLyGiaoDichDto(items);
+            } catch (NullPointerException exception) {
+                exception.printStackTrace();
+            }
 
             long tongHoadon = 0;
+
             List<ChiTietHoaDonBanHangDTO> list = new ArrayList<>();
-            for (ChiTietHoaDonBanHang element : items.getListChiTietHoaDonBanHang()) {
+
+            List<ChiTietHoaDonBanHang> chiTietHoaDonBanHangList = Optional.ofNullable(items.getListChiTietHoaDonBanHang()).orElse(Collections.emptyList());
+
+            for (ChiTietHoaDonBanHang element : chiTietHoaDonBanHangList) {
                 ChiTietHoaDonBanHangDTO chiTietHoaDonBanHangDTO = hoaDonConVerter.toDto(element);
                 list.add(chiTietHoaDonBanHangDTO);
-                tongHoadon = tongHoadon + element.getGiaBanThuc() * element.getSoLuong();
+
+                if (element.getGiaBanThuc() >= 0 && element.getSoLuong() >= 0) {
+                    tongHoadon = tongHoadon + element.getGiaBanThuc() * element.getSoLuong();
+                }
+
             }
+
             danhSachQuanLyGiaoDichDTO.setTongHoaDon(tongHoadon);
             danhSachQuanLyGiaoDichDTO.setChiTietHoaDonBanHang(list);
             lyGiaoDichDTO.add(danhSachQuanLyGiaoDichDTO);
@@ -90,24 +100,27 @@ public class BanHangController {
     }
 
     /**
+     * @return HoaDonBanHangDTO
      * @Author Nguyễn Xuân Long
      * Add thông tin hóa đơn
      * Method Post
-     * @return HoaDonBanHangDTO
      */
     @PostMapping(value = "/invoice")
 
     public ResponseEntity<Map<String, String>> addItem(@Valid @RequestBody BanHangDTO banHangDTO) {
 
-        List<TongHopHoaDonDTO> listChiTietHoaDon = banHangDTO.getChiTietHoaDonBanHang();
+//        List<TongHopHoaDonDTO> listChiTietHoaDon = banHangDTO.getChiTietHoaDonBanHang();
+        List<TongHopHoaDonDTO> listChiTietHoaDon = Optional.ofNullable(banHangDTO.getChiTietHoaDonBanHang()).orElse(Collections.emptyList());
 
         Map<String, String> errors = new HashMap<>();
         int index = 0;
-        for (TongHopHoaDonDTO items : listChiTietHoaDon) {
-            SanPham sanPham = sanPhamService.findById(items.getMaSanPham()).orElse(null);
 
-            if(items.getSoLuong()>sanPham.getSoLuong()){
-                errors.put("chiTietHoaDonBanHang["+index+"].soLuong", "So luong san pham con lai khong dap ung yeu cau cua ban ");
+        for (TongHopHoaDonDTO items : listChiTietHoaDon) {
+            // thay null bằng new SanPham
+            SanPham sanPham = sanPhamService.findById(items.getMaSanPham()).orElse(new SanPham());
+
+            if (items.getSoLuong() > sanPham.getSoLuong()) {
+                errors.put("chiTietHoaDonBanHang[" + index + "].soLuong", "So luong san pham con lai khong dap ung yeu cau cua ban hoac san pham khong ton tai ");
             }
             index++;
         }
@@ -118,9 +131,10 @@ public class BanHangController {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
+        // update số lượng sản phầm tổng kho
         for (TongHopHoaDonDTO items : listChiTietHoaDon) {
-            SanPham sanPham = sanPhamService.findById(items.getMaSanPham()).orElse(null);
-            sanPham.setSoLuong(sanPham.getSoLuong()-items.getSoLuong());
+            SanPham sanPham = sanPhamService.findById(items.getMaSanPham()).orElse(new SanPham());
+            sanPham.setSoLuong(sanPham.getSoLuong() - items.getSoLuong());
             sanPhamService.save(sanPham);
         }
 
@@ -131,43 +145,45 @@ public class BanHangController {
         } else {
             khachHang = khachHangService.findByStatusTrueAndSoDienThoai(banHangDTO.getSoDienThoai());
         }
+
         HoaDonBanHang hoaDonBanHang = new HoaDonBanHang();
         hoaDonBanHang.setKhachHang(khachHang);
         hoaDonBanHang.setThoiGianBanHang(LocalDateTime.now());
         hoaDonBanHang = hdbhService.save(hoaDonBanHang);
 
-
         for (TongHopHoaDonDTO items : listChiTietHoaDon) {
             ChiTietHoaDonBanHang chiTietHoaDonBanHang = modelMapper.map(items, ChiTietHoaDonBanHang.class);
 
             SanPham sanPham = sanPhamService.findById(items.getMaSanPham()).orElse(null);
+
             chiTietHoaDonBanHang.setSanPham(sanPham);
             chiTietHoaDonBanHang.setHoaDonBanHang(hoaDonBanHang);
             chiTietHoaDonBanHang = chiTietHDBHService.save(chiTietHoaDonBanHang);
         }
-        HoaDonBanHangDTO hoaDonBanHangDTO = modelMapper.map(hoaDonBanHang, HoaDonBanHangDTO.class);
-        Map<String,String> success=new HashMap<>();
-
-        return ResponseEntity.ok(success) ;
+//        HoaDonBanHangDTO hoaDonBanHangDTO = modelMapper.map(hoaDonBanHang, HoaDonBanHangDTO.class);
+        Map<String, String> success = new HashMap<>();
+        success.put("Success", "Hoa don duoc luu thanh cong ");
+        return ResponseEntity.ok(success);
     }
+
     /**
+     * @return Map<String, String>
      * @Author Nguyễn Xuân Long
      * Xử lý dữ liệu nhận về không hợp lệ
-     * @return Map<String, String>
      */
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-@ExceptionHandler(MethodArgumentNotValidException.class)
-public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-    Map<String, String> errors = new HashMap<>();
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
 
-    ex.getBindingResult().getAllErrors().forEach(error -> {
-        String fieldName = ((FieldError) error).getField();
-        String errorMessage = error.getDefaultMessage();
-        errors.put(fieldName, errorMessage);
-    });
+        ex.getBindingResult().getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
 
-    return errors;
-}
+        return errors;
+    }
 
 
 }
