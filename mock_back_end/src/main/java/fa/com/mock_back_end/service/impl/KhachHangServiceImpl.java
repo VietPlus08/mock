@@ -46,6 +46,11 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
+    public KhachHang findByStatusTrueAndSoDienThoai(String soDienThoai) {
+        return khachHangRepository.findByStatusTrueAndSoDienThoai(soDienThoai);
+    }
+
+    @Override
     public KhachHangDTO save(KhachHangDTO data) {
         return getKhachHangDTO(khachHangRepository.save(getKhachHang(data)));
     }
@@ -58,6 +63,11 @@ public class KhachHangServiceImpl implements KhachHangService {
             return getKhachHangDTO(khachHangRepository.save(khachHang.get()));
         }
         return null;
+    }
+
+    @Override
+    public KhachHang save(KhachHang data) {
+        return khachHangRepository.save(data);
     }
 
     @Override

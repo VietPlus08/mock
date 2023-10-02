@@ -75,6 +75,18 @@ public class SanPhamServiceImpl implements SanPhamService {
     * @Param sanPham
     * @Return SanPhamDTO
     */
+
+    @Override
+    public SanPham save(SanPham sanPham) {
+        return sanPhamRepository.save(sanPham);
+    }
+
+
+    @Override
+    public SanPham findByTenSanPham(String tenSanPham) {
+        return sanPhamRepository.findByStatusTrueAndTenSanPham(tenSanPham);
+    }
+
     @Override
     public SanPhamDTO save(SanPhamDTO sanPham) {
         return getSanPhamDTO(sanPhamRepository.save(getSanPham(sanPham)));

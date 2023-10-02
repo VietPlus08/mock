@@ -15,4 +15,7 @@ public interface KhachHangService {
     KhachHangDTO save(KhachHangDTO item);
     KhachHangDTO delete(Long id);
     KhachHangDTO update(KhachHangDTO item);
+
+    KhachHang findByStatusTrueAndSoDienThoai(String soDienThoai);
+    KhachHang save(KhachHang item);
 }

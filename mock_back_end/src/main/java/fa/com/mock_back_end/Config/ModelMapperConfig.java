@@ -1,4 +1,4 @@
-package fa.com.mock_back_end.config;
+package fa.com.mock_back_end.Config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;

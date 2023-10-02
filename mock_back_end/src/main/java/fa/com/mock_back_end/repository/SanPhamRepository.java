@@ -14,4 +14,5 @@ import java.util.List;
 */
 public interface SanPhamRepository extends JpaRepository<SanPham, Long> {
     List<SanPham> findByStatusTrue();
+    SanPham findByStatusTrueAndTenSanPham(String tenSanPham);
 }
