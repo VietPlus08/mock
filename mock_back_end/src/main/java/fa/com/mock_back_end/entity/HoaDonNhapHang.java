@@ -1,5 +1,6 @@
 package fa.com.mock_back_end.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,12 +10,17 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+* @Author QUANGNA7
+* @Version 1.0
+* @Since 10/2/2023
+*/
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 public class HoaDonNhapHang {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long maHoaDonNhapHang;
@@ -26,6 +32,14 @@ public class HoaDonNhapHang {
     @JoinColumn(name = "maNhaCungCap")
     NhaCungCap nhaCungCap;
 
-    @OneToMany(mappedBy = "hoaDonNhapHang")
+    @OneToMany(mappedBy = "hoaDonNhapHang", fetch = FetchType.EAGER)
     List<ChiTietHoaDonNhapHang> listChiTietHoaDonNhapHang;
+
+    public HoaDonNhapHang() {
+        this.thoiGianNhapHang = LocalDateTime.now();
+    }
+
+    public HoaDonNhapHang(Long maHoaDonNhapHang){
+        this.maHoaDonNhapHang = maHoaDonNhapHang;
+    }
 }

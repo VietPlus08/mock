@@ -1,5 +1,6 @@
 package fa.com.mock_back_end.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,11 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+* @Author QUANGNA7
+* @Version 1.0
+* @Since 10/2/2023
+*/
 @Entity
 @Getter
 @Setter
@@ -34,8 +40,8 @@ public class SanPham {
     private String ram;
     @Column(length = 10)
     private String camera;
-    @Column(length = 500)
-    private String imageUrl;
+    @Column(length = 255)
+    private String imgUrl;
     private boolean status = true;
 
     @OneToMany(mappedBy = "sanPham")
@@ -44,17 +50,11 @@ public class SanPham {
     @OneToMany(mappedBy = "sanPham", fetch = FetchType.EAGER)
     List<ChiTietHoaDonBanHang> listChiTietHoaDonBanHang;
 
-    public SanPham(Long maSanPham, String tenSanPham, String nhanHang, String boNhoTrong, long giaVon, long giaNiemYet, String mauSac, String ram, String camera, String imageUrl) {
+    public SanPham(Long maSanPham) {
         this.maSanPham = maSanPham;
-        this.tenSanPham = tenSanPham;
-        this.nhanHang = nhanHang;
-        this.boNhoTrong = boNhoTrong;
-        this.giaVon = giaVon;
-        this.giaNiemYet = giaNiemYet;
-        this.mauSac = mauSac;
-        this.ram = ram;
-        this.camera = camera;
-        this.imageUrl = imageUrl;
-        this.status = true;
+    }
+
+    public void setSoLuong(int soLuong) {
+        this.soLuong += soLuong;
     }
 }

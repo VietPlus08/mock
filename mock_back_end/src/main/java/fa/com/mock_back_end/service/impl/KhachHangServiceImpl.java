@@ -1,13 +1,16 @@
 package fa.com.mock_back_end.service.impl;
 
+import fa.com.mock_back_end.dto.KhachHangDTO;
 import fa.com.mock_back_end.entity.KhachHang;
 import fa.com.mock_back_end.repository.KhachHangRepository;
 import fa.com.mock_back_end.service.KhachHangService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class KhachHangServiceImpl implements KhachHangService {
@@ -15,9 +18,26 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Autowired
     KhachHangRepository khachHangRepository;
 
+    @Autowired
+    ModelMapper modelMapper;
+
+    @Override
+    public List<KhachHangDTO> findAllDTO() {
+        return findAll().stream()
+                .map(this::getKhachHangDTO)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public List<KhachHang> findAll() {
         return khachHangRepository.findByStatusTrue();
+    }
+
+    @Override
+    public Optional<KhachHangDTO> findDTOById(Long id) {
+        Optional<KhachHang> khachHang = khachHangRepository.findById(id);
+        return khachHang.map(hang -> Optional.ofNullable(getKhachHangDTO(hang)))
+                .orElse(null);
     }
 
     @Override
@@ -26,22 +46,43 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
-    public KhachHang save(KhachHang data) {
-        return khachHangRepository.save(data);
+    public KhachHang findByStatusTrueAndSoDienThoai(String soDienThoai) {
+        return khachHangRepository.findByStatusTrueAndSoDienThoai(soDienThoai);
     }
 
     @Override
-    public KhachHang delete(Long id) {
+    public KhachHangDTO save(KhachHangDTO data) {
+        return getKhachHangDTO(khachHangRepository.save(getKhachHang(data)));
+    }
+
+    @Override
+    public KhachHangDTO delete(Long id) {
         Optional<KhachHang> khachHang = findById(id);
         if (khachHang.isPresent()) {
             khachHang.get().setStatus(false);
-            return khachHangRepository.save(khachHang.get());
+            return getKhachHangDTO(khachHangRepository.save(khachHang.get()));
         }
         return null;
     }
 
     @Override
-    public KhachHang update(KhachHang item) {
-        return null;
+    public KhachHang save(KhachHang data) {
+        return khachHangRepository.save(data);
+    }
+
+    @Override
+    public KhachHangDTO update(KhachHangDTO data) {
+        if (data == null || data.getMaKhachHang() == 0) {
+            return null;
+        }
+        return getKhachHangDTO(khachHangRepository.save(getKhachHang(data)));
+    }
+
+    private KhachHangDTO getKhachHangDTO(KhachHang khachHang) {
+        return modelMapper.map(khachHang, KhachHangDTO.class);
+    }
+
+    private KhachHang getKhachHang(KhachHangDTO khachHangDTO) {
+        return modelMapper.map(khachHangDTO, KhachHang.class);
     }
 }
