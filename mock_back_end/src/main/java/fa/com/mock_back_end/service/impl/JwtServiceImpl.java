@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +24,10 @@ public class JwtServiceImpl {
 	return claimsResolver.apply(claims);
     }
 
-    public String generateToken(String username) {
+    public String generateToken(UserDetails userDetails) {
 	Map<String, Object> claims = new HashMap<>();
-	return createToken(claims, username);
+	claims.put("role", userDetails.getAuthorities().toString());
+	return createToken(claims, userDetails.getUsername());
     }
 
     private String createToken(Map<String, Object> claims, String username) {
@@ -62,13 +62,4 @@ public class JwtServiceImpl {
 	return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    public ResponseCookie generatedJwtCookie(String jwtToken) {
-	ResponseCookie cookie = ResponseCookie.from("jwtToken", jwtToken).maxAge(86400).httpOnly(true).build();
-	return cookie;
-    }
-
-    public ResponseCookie cleanJwtCookie() {
-	ResponseCookie cookie = ResponseCookie.from("jwtToken", null).build();
-	return cookie;
-    }
 }

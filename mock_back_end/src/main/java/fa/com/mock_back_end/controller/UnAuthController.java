@@ -7,11 +7,12 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fa.com.mock_back_end.dto.AuthRequest;
 import fa.com.mock_back_end.dto.NhanVienDTOThangDN8;
+import fa.com.mock_back_end.dto.UserInforDetails;
 import fa.com.mock_back_end.service.impl.JwtServiceImpl;
 import fa.com.mock_back_end.service.impl.UserInforServiceImpl;
 
@@ -39,19 +41,16 @@ public class UnAuthController {
     private AuthenticationManager authenticationManager;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseCookie authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+    public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
 	Authentication authentication = authenticationManager.authenticate(
 		new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+	SecurityContextHolder.getContext().setAuthentication(authentication);
+	UserDetails userDetails = (UserInforDetails) authentication.getPrincipal();
 	if (authentication.isAuthenticated()) {
-	    return jwtService.generatedJwtCookie(jwtService.generateToken(authRequest.getUsername()));
+	    return jwtService.generateToken(userDetails);
 	} else {
 	    throw new UsernameNotFoundException("invalid username request!");
 	}
-    }
-
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public ResponseCookie logOut() {
-	return jwtService.cleanJwtCookie();
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)

@@ -9,7 +9,6 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import fa.com.mock_back_end.validate.custom_annotation.XacNhanMatKhauConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,6 +36,5 @@ public class NhanVienDTOThangDN8 {
     private String matKhau;
 
     @NotBlank(message = "Không được để trống")
-    @XacNhanMatKhauConstraint
     private String reMatKhau;
 }
