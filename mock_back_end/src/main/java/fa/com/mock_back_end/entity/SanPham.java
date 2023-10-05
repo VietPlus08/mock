@@ -40,7 +40,7 @@ public class SanPham {
     private String ram;
     @Column(length = 10)
     private String camera;
-    @Column(length = 500)
+    @Column(length = 255)
     private String imgUrl;
     private boolean status = true;
 

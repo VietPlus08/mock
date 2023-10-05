@@ -16,7 +16,6 @@ public interface SanPhamService {
     SanPhamDTO delete(Long id);
     SanPhamDTO update(SanPhamDTO data);
     void updateInventory(long maSanPham, int soLuong);
-
     SanPham findByTenSanPham(String tenSanPham);
     SanPham save(SanPham sanPham);
 }

@@ -4,13 +4,18 @@ import fa.com.mock_back_end.dto.NhaCungCapDTO;
 import fa.com.mock_back_end.entity.HoaDonNhapHang;
 import fa.com.mock_back_end.entity.NhaCungCap;
 import fa.com.mock_back_end.service.NhaCungCapService;
+import fa.com.mock_back_end.validation.NhaCungCapValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -21,8 +26,11 @@ public class NhaCungCapController {
     @Autowired
     NhaCungCapService nhaCungCapService;
 
+    @Autowired
+    NhaCungCapValidation nhaCungCapValidation;
+
     @GetMapping("")
-    public ResponseEntity<List<NhaCungCapDTO>> getList(){
+    public ResponseEntity<List<NhaCungCapDTO>> getList() {
         return ResponseEntity.ok().body(nhaCungCapService.findAllDTO());
     }
 
@@ -43,7 +51,11 @@ public class NhaCungCapController {
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<NhaCungCapDTO> createItem(@Valid @RequestBody NhaCungCapDTO nhaCungCap) {
+    public ResponseEntity<?> createItem(@Valid @RequestBody NhaCungCapDTO nhaCungCap) {
+        Map<String, String> errors = nhaCungCapValidation.validate(nhaCungCap);
+        if (!errors.isEmpty()) {
+            return ResponseEntity.badRequest().body(errors);
+        }
         return ResponseEntity.ok().body(nhaCungCapService.save(nhaCungCap));
     }
 

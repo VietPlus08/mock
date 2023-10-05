@@ -3,12 +3,14 @@ package fa.com.mock_back_end.controller;
 import fa.com.mock_back_end.dto.KhachHangDTO;
 import fa.com.mock_back_end.entity.KhachHang;
 import fa.com.mock_back_end.service.KhachHangService;
+import fa.com.mock_back_end.validation.KhachHangValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -19,6 +21,9 @@ public class KhachHangController {
 
     @Autowired
     KhachHangService khachHangService;
+
+    @Autowired
+    KhachHangValidation khachHangValidation;
 
     @GetMapping("")
     public ResponseEntity<List<KhachHangDTO>> getList(){
@@ -34,15 +39,13 @@ public class KhachHangController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping(value = "/edit")
-    public ResponseEntity<KhachHangDTO> findItem(@RequestParam("id") Long id) {
-        Optional<KhachHangDTO> khachHang = khachHangService.findDTOById(id);
-        return khachHang.map(item -> ResponseEntity.ok().body(item))
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     @PostMapping(value = "")
-    public ResponseEntity<KhachHangDTO> createItem(@Valid @RequestBody KhachHangDTO khachHang) {
+    public ResponseEntity<?> createItem(@Valid @RequestBody KhachHangDTO khachHang) {
+        Map<String, String> errors = khachHangValidation.validate(khachHang);
+        if (!errors.isEmpty()){
+            return ResponseEntity.badRequest().body(errors);
+        }
+
         return ResponseEntity.ok().body(khachHangService.save(khachHang));
     }
 

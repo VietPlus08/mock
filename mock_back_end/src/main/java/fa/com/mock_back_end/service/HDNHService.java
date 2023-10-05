@@ -1,6 +1,6 @@
 package fa.com.mock_back_end.service;
 
-import fa.com.mock_back_end.dto.ChiTietNhapHangDTO;
+import fa.com.mock_back_end.dto.ChiTietHoaDonNhapHangDTO;
 import fa.com.mock_back_end.dto.NhapHangDTO;
 import fa.com.mock_back_end.dto.SanPhamDTO;
 import fa.com.mock_back_end.entity.ChiTietHoaDonNhapHang;
@@ -18,13 +18,13 @@ public interface HDNHService {
     NhapHangDTO save(NhapHangDTO item);
     HoaDonNhapHang delete(Long id);
     NhapHangDTO update(NhapHangDTO item);
-    long getTongTien(List<ChiTietNhapHangDTO> listChiTietNhapHangDTO);
-    public List<ChiTietHoaDonNhapHang> getListChiTietHoaDonNhapHang(List<ChiTietNhapHangDTO> listChiTietNhapHangDTO,
+    long getTongTien(List<ChiTietHoaDonNhapHangDTO> listChiTietHoaDonNhapHangDTO);
+    public List<ChiTietHoaDonNhapHang> getListChiTietHoaDonNhapHang(List<ChiTietHoaDonNhapHangDTO> listChiTietHoaDonNhapHangDTO,
                                                                     long maHoaDonNhapHang);
-    public ChiTietHoaDonNhapHang getChiTietHoaDonNhapHang(ChiTietNhapHangDTO chiTietNhapHangDTO,
+    public ChiTietHoaDonNhapHang getChiTietHoaDonNhapHang(ChiTietHoaDonNhapHangDTO chiTietHoaDonNhapHangDTO,
                                                           long maHoaDonNhapHang);
     public NhapHangDTO getNhapHangDTO(HoaDonNhapHang nhapHang);
-    public List<ChiTietNhapHangDTO> getListChiTietNhapHangDTO(List<ChiTietHoaDonNhapHang> data);
-    public ChiTietNhapHangDTO getChiTietNhapHangDTO(ChiTietHoaDonNhapHang chiTietHoaDonNhapHang);
+    public List<ChiTietHoaDonNhapHangDTO> getListChiTietNhapHangDTO(List<ChiTietHoaDonNhapHang> data);
+    public ChiTietHoaDonNhapHangDTO getChiTietNhapHangDTO(ChiTietHoaDonNhapHang chiTietHoaDonNhapHang);
     public SanPhamDTO getSanPhamDTO(SanPham sanPham);
 }

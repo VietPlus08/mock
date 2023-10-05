@@ -1,9 +1,9 @@
 package fa.com.mock_back_end.dto;
 
-import com.sun.istack.internal.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.List;
@@ -12,9 +12,12 @@ import java.util.List;
 @Setter
 public class ThongKeDTO {
     // các trường request
-    @NotNull
+
+    @NotNull(message = "{NOT_NULL}")
+    @Pattern(regexp = "(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/((19|20)\\d\\d)", message = "{REGEX_DATE}")
     LocalDate thoiGianBatDau;
-    @NotNull
+    @NotNull(message = "{NOT_NULL}")
+    @Pattern(regexp = "(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/((19|20)\\d\\d)", message = "{REGEX_DATE}")
     LocalDate thoiGianKetThuc;
     @Pattern(regexp = "thongKeSanPham|thongKeNhanVien")
     String loaiThongKe;

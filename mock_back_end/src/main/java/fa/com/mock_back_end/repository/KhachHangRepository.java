@@ -11,4 +11,5 @@ public interface KhachHangRepository extends JpaRepository<KhachHang, Long> {
 
     KhachHang findByStatusTrueAndSoDienThoai(String soDienThoai);
 
+    KhachHang findBySoDienThoai(String soDienThoai);
 }

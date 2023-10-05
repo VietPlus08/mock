@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Getter
@@ -12,12 +14,13 @@ import javax.validation.constraints.Pattern;
 public class NhaCungCapDTO {
 
     private Long maNhaCungCap;
-    @Pattern(regexp = "[A-Za-z.\\s]+", message = "{HO_TEN}")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]{1,}$", message = "{REGEX_TEN}")
     private String tenNhaCungCap;
+    @NotBlank(message = "{NOT_BLANK}")
     @Email(message = "{EMAIL}")
     private String email;
-    @Pattern(regexp = "0[1-9][0-9]{7,8}", message = "{SO_DIEN_THOAI}")
+//    @Pattern(regexp = "^09[0-9]{8}$", message = "{REGEX_SO_DIEN_THOAI}")
     private String soDienThoai;
-    @Pattern(regexp = "[A-Za-z0-9.\\s]+", message = "{DIA_CHI}")
+    @Pattern(regexp = "^[a-zA-Z0-9/ ]{1,}$", message = "{REGEX_DIA_CHI}")
     private String diaChi;
 }

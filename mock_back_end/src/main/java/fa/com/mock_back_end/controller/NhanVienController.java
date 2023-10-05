@@ -5,6 +5,7 @@ import fa.com.mock_back_end.entity.NhanVien;
 import fa.com.mock_back_end.service.NhanVienService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,28 +25,21 @@ public class NhanVienController {
     }
 
     @DeleteMapping("")
-    public ResponseEntity<NhanVien> deleteItem(@RequestParam("id") String id) {
-        NhanVien nhanVien = nhanVienService.delete(id);
+    public ResponseEntity<NhanVienDTO> deleteItem(@RequestParam("id") String id) {
+        NhanVienDTO nhanVien = nhanVienService.delete(id);
         if (nhanVien != null) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping(value = "/edit")
-    public ResponseEntity<NhanVien> findItem(@RequestParam("id") String id) {
-        Optional<NhanVien> nhanVien = nhanVienService.findById(id);
-        return nhanVien.map(vien -> ResponseEntity.ok().body(vien))
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     @PostMapping(value = "")
-    public ResponseEntity<NhanVien> createItem(@Valid @RequestBody NhanVien nhanVien) {
+    public ResponseEntity<NhanVienDTO> createItem(@Valid @RequestBody NhanVienDTO nhanVien) {
         return ResponseEntity.ok().body(nhanVienService.save(nhanVien));
     }
 
     @PutMapping(value = "")
-    public ResponseEntity<NhanVien> updateItem(@Valid @RequestBody NhanVien updateNhanVien) {
+    public ResponseEntity<NhanVienDTO> updateItem(@Valid @RequestBody NhanVienDTO updateNhanVien) {
         return ResponseEntity.ok().body(nhanVienService.update(updateNhanVien));
     }
 }

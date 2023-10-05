@@ -7,27 +7,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 @SpringBootApplication
 public class MockBackEndApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MockBackEndApplication.class, args);
-    }
-
-    @Bean
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("messages"); // Tên của file messages.properties
-        messageSource.setDefaultEncoding("UTF-8");
-        return messageSource;
-    }
-
-    @Bean
-    public HttpMessageConverter<String> responseBodyConverter() {
-        StringHttpMessageConverter converter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
-        return converter;
     }
 }

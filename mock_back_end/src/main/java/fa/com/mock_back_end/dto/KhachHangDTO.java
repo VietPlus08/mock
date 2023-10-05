@@ -12,11 +12,12 @@ import java.time.LocalDate;
 public class KhachHangDTO {
 
     private Long maKhachHang;
-    @Pattern(regexp = "[A-Za-z.\\s]+", message = "{HO_TEN}")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]{1,}$", message = "{REGEX_TEN}")
     private String tenKhachHang;
+//    @Pattern(regexp = "(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/((19|20)\\d\\d)", message = "{REGEX_DATE}")
     private LocalDate ngaySinh;
-    @Pattern(regexp = "Nam|Nu|Khac", message = "{GIOI_TINH}")
+    @Pattern(regexp = "Nam|Nu|Khac", message = "{REGEX_GIOI_TINH}")
     private String gioiTinh;
-    @Pattern(regexp = "0[1-9][0-9]{7,8}", message = "{SO_DIEN_THOAI}")
+    @Pattern(regexp = "^09[0-9]{8}$", message = "{REGEX_SO_DIEN_THOAI}")
     private String soDienThoai;
 }

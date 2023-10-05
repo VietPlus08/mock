@@ -20,6 +20,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class HoaDonNhapHang {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long maHoaDonNhapHang;

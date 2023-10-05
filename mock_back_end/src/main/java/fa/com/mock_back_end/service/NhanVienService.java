@@ -11,7 +11,7 @@ public interface NhanVienService {
     List<NhanVienDTO> findAllDTO();
     List<NhanVien> findAll();
     Optional<NhanVien> findById(String id);
-    NhanVien save(NhanVien nhanVien);
-    NhanVien delete(String id);
-    NhanVien update(NhanVien nhanVien);
+    NhanVienDTO save(NhanVienDTO nhanVien);
+    NhanVienDTO delete(String id);
+    NhanVienDTO update(NhanVienDTO nhanVien);
 }

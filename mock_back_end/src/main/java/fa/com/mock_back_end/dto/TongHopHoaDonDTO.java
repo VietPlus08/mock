@@ -11,18 +11,18 @@ import javax.validation.constraints.*;
 @AllArgsConstructor
 public class TongHopHoaDonDTO {
 
-
-    @NotNull(message = "Gia ban thuc khong duoc trong")
-    @Min(value = 1, message = "Gia ban thuc phai lon hon 0")
+    @NotNull(message = "{NOT_NULL}")
+    @Min(value = 1, message = "{MIN_GIA_TRI}")
+    @Max(value = 999999999, message = "{MAX_GIA_TRI}")
     private long giaBanThuc;
 
-    @NotNull(message = "So luong khong duoc bo trong")
-    @Min(value = 1, message = "So luong phai lon hon 0")
+    @NotNull(message = "{NOT_NULL}")
+    @Min(value = 1, message = "{MIN_GIA_TRI}")
+    @Max(value = 999, message = "{MAX_GIA_TRI}")
     private int soLuong;
-
 
     private long giaNiemYetHienTai;
 
-    @NotNull(message = "Ma san pham khong duoc bo trong")
+    @NotNull(message = "{NOT_NULL}")
     private Long maSanPham;
 }

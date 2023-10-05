@@ -1,6 +1,6 @@
 package fa.com.mock_back_end.service.impl;
 
-import fa.com.mock_back_end.dto.ChiTietNhapHangDTO;
+import fa.com.mock_back_end.dto.ChiTietHoaDonNhapHangDTO;
 import fa.com.mock_back_end.dto.NhapHangDTO;
 import fa.com.mock_back_end.dto.SanPhamDTO;
 import fa.com.mock_back_end.entity.ChiTietHoaDonNhapHang;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class HDNHServiceImpl implements HDNHService {
 
     @Autowired
-    HDNHRepository hdnhRepository;
+    HDNHRepository HDNHRepository;
 
     @Autowired
     ChiTietHDNHService chiTietHDNHService;
@@ -40,6 +40,11 @@ public class HDNHServiceImpl implements HDNHService {
     @Autowired
     ModelMapper modelMapper;
 
+    /**
+    * @Description findAllDTO
+    * @Param
+    * @Return List<NhapHangDTO>
+    */
     @Override
     public List<NhapHangDTO> findAllDTO() {
         return findAll().stream()
@@ -47,26 +52,41 @@ public class HDNHServiceImpl implements HDNHService {
                 .collect(Collectors.toList());
     }
 
+    /**
+    * @Description findAll
+    * @Param
+    * @Return List<HoaDonNhapHang>
+    */
     @Override
     public List<HoaDonNhapHang> findAll() {
-        return hdnhRepository.findByStatusTrue();
+        return HDNHRepository.findByStatusTrue();
     }
 
+    /**
+    * @Description findById
+    * @Param id
+    * @Return Optional<HoaDonNhapHang>
+    */
     @Override
     public Optional<HoaDonNhapHang> findById(Long id) {
-        return hdnhRepository.findById(id);
+        return HDNHRepository.findById(id);
     }
 
+    /**
+    * @Description save
+    * @Param nhapHangDTO
+    * @Return NhapHangDTO
+    */
     @Override
-    public NhapHangDTO save(NhapHangDTO data) {
-        List<ChiTietNhapHangDTO> listChiTietHoaDonNhapHangDTO = data.getChiTietHoaDonNhapHangDTO();
+    public NhapHangDTO save(NhapHangDTO nhapHangDTO) {
+        List<ChiTietHoaDonNhapHangDTO> listChiTietHoaDonNhapHangDTO = nhapHangDTO.getChiTietHoaDonNhapHangDTO();
         HoaDonNhapHang nhapHang = new HoaDonNhapHang();
-        if (data.getMaNhaCungCap() != 0) {
-            nhapHang.setNhaCungCap(new NhaCungCap(data.getMaNhaCungCap()));
+        if (nhapHangDTO.getMaNhaCungCap() != 0) {
+            nhapHang.setNhaCungCap(new NhaCungCap(nhapHangDTO.getMaNhaCungCap()));
         }
         nhapHang.setTongHoaDon(getTongTien(listChiTietHoaDonNhapHangDTO));
         // lưu hóa đơn
-        HoaDonNhapHang savedHoaDonNhapHang = hdnhRepository.save(nhapHang);
+        HoaDonNhapHang savedHoaDonNhapHang = HDNHRepository.save(nhapHang);
         // lưu chi tiết hóa đơn
         List<ChiTietHoaDonNhapHang> listChiTietHoaDonNhapHang = getListChiTietHoaDonNhapHang(listChiTietHoaDonNhapHangDTO, savedHoaDonNhapHang.getMaHoaDonNhapHang());
         chiTietHDNHService.saveAll(listChiTietHoaDonNhapHang);
@@ -75,16 +95,26 @@ public class HDNHServiceImpl implements HDNHService {
         return getNhapHangDTO(savedHoaDonNhapHang);
     }
 
+    /**
+    * @Description delete
+    * @Param id
+    * @Return HoaDonNhapHang
+    */
     @Override
     public HoaDonNhapHang delete(Long id) {
         Optional<HoaDonNhapHang> hoaDonNhapHang = findById(id);
         if (hoaDonNhapHang.isPresent()) {
             hoaDonNhapHang.get().setStatus(false);
-            return hdnhRepository.save(hoaDonNhapHang.get());
+            return HDNHRepository.save(hoaDonNhapHang.get());
         }
         return null;
     }
 
+    /**
+    * @Description update
+    * @Param nhapHangDTO
+    * @Return NhapHangDTO
+    */
     @Override
     public NhapHangDTO update(NhapHangDTO nhapHangDTO) {
         return nhapHangDTO == null || nhapHangDTO.getMaHoaDonNhapHang() == 0
@@ -92,39 +122,66 @@ public class HDNHServiceImpl implements HDNHService {
                 : save(nhapHangDTO);
     }
 
-    public long getTongTien(List<ChiTietNhapHangDTO> listChiTietNhapHangDTO) {
+    /**
+    * @Description getTongTien
+    * @Param listChiTietNhapHangDTO
+    * @Return long
+    */
+    public long getTongTien(List<ChiTietHoaDonNhapHangDTO> listChiTietHoaDonNhapHangDTO) {
         List<SanPham> sanPhams = sanPhamService.findAll();
-        Long giaVon = sanPhams.stream().filter(i -> i.getMaSanPham() == 1).mapToLong(SanPham::getGiaVon).findAny().orElse(0);
-        return listChiTietNhapHangDTO.stream()
+        return listChiTietHoaDonNhapHangDTO.stream()
                 .mapToLong(i -> getGiaVon(sanPhams, i.getSanPhamDTO().getMaSanPham()) * i.getSoLuong())
                 .sum();
     }
 
+    /**
+    * @Description getGiaVon
+    * @Param list
+    * @Param maSanPham
+    * @Return long
+    */
     public long getGiaVon(List<SanPham> list, long maSanPham){
         return list.stream()
                 .filter(i -> i.getMaSanPham() == maSanPham)
                 .mapToLong(SanPham::getGiaVon)
-                .findAny()
+                .findFirst()
                 .orElse(0);
     }
 
-    public List<ChiTietHoaDonNhapHang> getListChiTietHoaDonNhapHang(List<ChiTietNhapHangDTO> listChiTietNhapHangDTO,
+    /**
+    * @Description getListChiTietHoaDonNhapHang
+    * @Param listChiTietNhapHangDTO
+    * @Param maHoaDonNhapHang
+    * @Return List<ChiTietHoaDonNhapHang>
+    */
+    public List<ChiTietHoaDonNhapHang> getListChiTietHoaDonNhapHang(List<ChiTietHoaDonNhapHangDTO> listChiTietHoaDonNhapHangDTO,
                                                                     long maHoaDonNhapHang) {
-        return listChiTietNhapHangDTO.stream()
+        return listChiTietHoaDonNhapHangDTO.stream()
                 .map(i -> getChiTietHoaDonNhapHang(i, maHoaDonNhapHang))
                 .collect(Collectors.toList());
     }
 
-    public ChiTietHoaDonNhapHang getChiTietHoaDonNhapHang(ChiTietNhapHangDTO chiTietNhapHangDTO,
+    /**
+    * @Description getChiTietHoaDonNhapHang
+    * @Param chiTietNhapHangDTO
+    * @Param maHoaDonNhapHang
+    * @Return ChiTietHoaDonNhapHang
+    */
+    public ChiTietHoaDonNhapHang getChiTietHoaDonNhapHang(ChiTietHoaDonNhapHangDTO chiTietHoaDonNhapHangDTO,
                                                           long maHoaDonNhapHang) {
-        ChiTietHoaDonNhapHang chiTietHoaDonNhapHang = modelMapper.map(chiTietNhapHangDTO, ChiTietHoaDonNhapHang.class);
+        ChiTietHoaDonNhapHang chiTietHoaDonNhapHang = modelMapper.map(chiTietHoaDonNhapHangDTO, ChiTietHoaDonNhapHang.class);
         chiTietHoaDonNhapHang.setHoaDonNhapHang(new HoaDonNhapHang(maHoaDonNhapHang));
-        chiTietHoaDonNhapHang.setSanPham(new SanPham(chiTietNhapHangDTO.getSanPhamDTO().getMaSanPham()));
+        chiTietHoaDonNhapHang.setSanPham(new SanPham(chiTietHoaDonNhapHangDTO.getSanPhamDTO().getMaSanPham()));
         // điều chỉnh hàng tồn kho (số lượng trong sản phẩm)
-        sanPhamService.updateInventory(chiTietNhapHangDTO.getSanPhamDTO().getMaSanPham(), chiTietNhapHangDTO.getSoLuong());
+        sanPhamService.updateInventory(chiTietHoaDonNhapHangDTO.getSanPhamDTO().getMaSanPham(), chiTietHoaDonNhapHangDTO.getSoLuong());
         return chiTietHoaDonNhapHang;
     }
 
+    /**
+    * @Description getNhapHangDTO
+    * @Param nhapHang
+    * @Return NhapHangDTO
+    */
     public NhapHangDTO getNhapHangDTO(HoaDonNhapHang nhapHang) {
         NhapHangDTO nhapHangDTO = modelMapper.map(nhapHang, NhapHangDTO.class);
         NhaCungCap nhaCungCap = nhapHang.getNhaCungCap() == null
@@ -137,20 +194,35 @@ public class HDNHServiceImpl implements HDNHService {
         return nhapHangDTO;
     }
 
-    public List<ChiTietNhapHangDTO> getListChiTietNhapHangDTO(List<ChiTietHoaDonNhapHang> data) {
-        return data == null
+    /**
+    * @Description getListChiTietNhapHangDTO
+    * @Param list
+    * @Return List<ChiTietNhapHangDTO>
+    */
+    public List<ChiTietHoaDonNhapHangDTO> getListChiTietNhapHangDTO(List<ChiTietHoaDonNhapHang> list) {
+        return list == null
                 ? new ArrayList<>()
-                : data.stream()
+                : list.stream()
                 .map(this::getChiTietNhapHangDTO)
                 .collect(Collectors.toList());
     }
 
-    public ChiTietNhapHangDTO getChiTietNhapHangDTO(ChiTietHoaDonNhapHang chiTietHoaDonNhapHang) {
-        ChiTietNhapHangDTO chiTietNhapHangDTO = modelMapper.map(chiTietHoaDonNhapHang, ChiTietNhapHangDTO.class);
-        chiTietNhapHangDTO.setSanPhamDTO(getSanPhamDTO(chiTietHoaDonNhapHang.getSanPham()));
-        return chiTietNhapHangDTO;
+    /**
+    * @Description getChiTietNhapHangDTO
+    * @Param chiTietHoaDonNhapHang
+    * @Return ChiTietNhapHangDTO
+    */
+    public ChiTietHoaDonNhapHangDTO getChiTietNhapHangDTO(ChiTietHoaDonNhapHang chiTietHoaDonNhapHang) {
+        ChiTietHoaDonNhapHangDTO chiTietHoaDonNhapHangDTO = modelMapper.map(chiTietHoaDonNhapHang, ChiTietHoaDonNhapHangDTO.class);
+        chiTietHoaDonNhapHangDTO.setSanPhamDTO(getSanPhamDTO(chiTietHoaDonNhapHang.getSanPham()));
+        return chiTietHoaDonNhapHangDTO;
     }
 
+    /**
+    * @Description getSanPhamDTO
+    * @Param sanPham
+    * @Return SanPhamDTO
+    */
     public SanPhamDTO getSanPhamDTO(SanPham sanPham) {
         return modelMapper.map(sanPham, SanPhamDTO.class);
     }

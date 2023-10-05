@@ -19,6 +19,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChiTietHoaDonNhapHang {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long maChiTietHoaDonNhapHang;

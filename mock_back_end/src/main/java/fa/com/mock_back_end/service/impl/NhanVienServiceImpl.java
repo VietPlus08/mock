@@ -40,38 +40,35 @@ public class NhanVienServiceImpl implements NhanVienService {
     }
 
     @Override
-    public NhanVien save(NhanVien nhanVien) {
+    public NhanVienDTO save(NhanVienDTO nhanVien) {
         if (nhanVien.getMaNhanVien() == null) {
             nhanVien.setMaNhanVien(Generator.getMaNhanVien(nhanVienRepository.getByMaNhanVien()));
         }
-        return nhanVienRepository.save(nhanVien);
+        return getNhanVienDTO(nhanVienRepository.save(getNhanVien(nhanVien)));
     }
 
     @Override
-    public NhanVien delete(String id) {
+    public NhanVienDTO delete(String id) {
         Optional<NhanVien> nhanVien = findById(id);
         if (nhanVien.isPresent()) {
             nhanVien.get().setStatus(false);
-            return nhanVienRepository.save(nhanVien.get());
+            return getNhanVienDTO(nhanVienRepository.save(nhanVien.get()));
         }
         return null;
     }
 
     @Override
-    public NhanVien update(NhanVien updateNhanVien) {
-        Optional<NhanVien> nhanVien = findById(updateNhanVien.getMaNhanVien());
-        if (nhanVien.isPresent()) {
-            nhanVien.get().setTenNhanVien(updateNhanVien.getTenNhanVien());
-            nhanVien.get().setNgaySinh(updateNhanVien.getNgaySinh());
-            nhanVien.get().setGioiTinh(updateNhanVien.getGioiTinh());
-            nhanVien.get().setMatKhau(updateNhanVien.getMatKhau());
-            nhanVien.get().setChucVu(updateNhanVien.getChucVu());
-            return save(nhanVien.get());
-        }
-        return null;
+    public NhanVienDTO update(NhanVienDTO nhanVien) {
+        return nhanVien == null || nhanVien.getMaNhanVien() == null
+                ? null :
+                getNhanVienDTO(nhanVienRepository.save(getNhanVien(nhanVien)));
     }
 
-    private NhanVienDTO getNhanVienDTO(NhanVien nhanVien){
+    public NhanVienDTO getNhanVienDTO(NhanVien nhanVien) {
         return modelMapper.map(nhanVien, NhanVienDTO.class);
+    }
+
+    public NhanVien getNhanVien(NhanVienDTO nhanVienDTO) {
+        return modelMapper.map(nhanVienDTO, NhanVien.class);
     }
 }
