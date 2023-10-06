@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -28,24 +27,20 @@ import java.util.*;
  * Bán Hàng controller phục vụ lưu hóa đơn và xuất lịch sử giao dịch
  */
 @RestController
+@RequestMapping(value = "/staff")
 @CrossOrigin
 public class BanHangController {
 
     @Autowired
+    ModelMapper modelMapper;
+    @Autowired
     private KhachHangService khachHangService;
-
     @Autowired
     private HDBHService hdbhService;
-
     @Autowired
     private SanPhamService sanPhamService;
-
     @Autowired
     private ChiTietHDBHService chiTietHDBHService;
-
-    @Autowired
-    ModelMapper modelMapper;
-
     @Autowired
     private HoaDonConVerter hoaDonConVerter;
 

@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/thong_ke")
+@RequestMapping("/admin/thong_ke")
 @CrossOrigin("http://localhost:3000/")
 public class ThongKeController {
 
@@ -15,7 +15,7 @@ public class ThongKeController {
     ThongKeServiceImpl thongKeService;
 
     @PostMapping("")
-    public ResponseEntity<ThongKeDTO> getThongKe(@RequestBody ThongKeDTO thongKeDTO){
+    public ResponseEntity<ThongKeDTO> getThongKe(@RequestBody ThongKeDTO thongKeDTO) {
         return ResponseEntity.ok(thongKeService.getThongKe(thongKeDTO));
     }
 }
