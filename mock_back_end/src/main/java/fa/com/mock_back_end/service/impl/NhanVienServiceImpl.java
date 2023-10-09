@@ -7,6 +7,7 @@ import fa.com.mock_back_end.repository.NhanVienRepository;
 import fa.com.mock_back_end.service.NhanVienService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,9 @@ public class NhanVienServiceImpl implements NhanVienService {
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     public List<NhanVienDTO> findAllDTO() {
@@ -61,10 +65,10 @@ public class NhanVienServiceImpl implements NhanVienService {
     }
 
     @Override
-    public NhanVienDTO update(NhanVienDTO nhanVien) {
-        return nhanVien == null || nhanVien.getMaNhanVien() == null
+    public NhanVienDTO update(NhanVienDTO nhanVienDTO) {
+        return nhanVienDTO == null || nhanVienDTO.getMaNhanVien() == null
                 ? null :
-                getNhanVienDTO(nhanVienRepository.save(getNhanVien(nhanVien)));
+                getNhanVienDTO(nhanVienRepository.save(getNhanVien(nhanVienDTO)));
     }
 
     public NhanVienDTO getNhanVienDTO(NhanVien nhanVien) {
@@ -72,6 +76,8 @@ public class NhanVienServiceImpl implements NhanVienService {
     }
 
     public NhanVien getNhanVien(NhanVienDTO nhanVienDTO) {
-        return modelMapper.map(nhanVienDTO, NhanVien.class);
+        NhanVien nhanVien = modelMapper.map(nhanVienDTO, NhanVien.class);
+        nhanVien.setMatKhau(passwordEncoder.encode(nhanVienDTO.getPassword()));
+        return nhanVien;
     }
 }

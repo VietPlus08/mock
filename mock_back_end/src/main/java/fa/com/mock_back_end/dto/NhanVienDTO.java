@@ -19,7 +19,9 @@ public class NhanVienDTO {
     private LocalDate ngaySinh;
     private String gioiTinh;
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$", message = "{MAT_KHAU}")
-    private String matKhau;
+    private String password;
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$", message = "{MAT_KHAU}")
+    private String newPassword;
     // các trường làm nhiệm vụ thống kê
     private long doanhThu;
     private long loiNhuan;

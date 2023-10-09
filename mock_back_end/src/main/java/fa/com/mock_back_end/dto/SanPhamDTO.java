@@ -18,14 +18,16 @@ public class SanPhamDTO {
 
     private long maSanPham;
     @NotBlank(message = "{NOT_BLANK}")
-    @Pattern(regexp = "[A-Za-z0-9\\s.]+", message = "{REGEX_TEN}")
+    @Pattern(regexp = "[A-Za-z0-9\\s]+", message = "{REGEX_TEN}")
     private String tenSanPham;
-    @Pattern(regexp = "^[a-zA-Z0-9 ]{0,}$", message = "{REGEX_NHAN_HANG}")
+    @NotBlank(message = "{NOT_BLANK}")
+    @Pattern(regexp = "[a-zA-Z0-9\\s]+", message = "{REGEX_NHAN_HANG}")
     private String nhanHang;
     @NotBlank(message = "{NOT_BLANK}")
     @Pattern(regexp = "[1-9]([0-9]+)GB", message = "{REGEX_BO_NHO}")
     private String boNhoTrong;
-    @Pattern(regexp = "^[a-zA-Z0-9 ]{0,}$", message = "{REGEX_CPU}")
+    @NotBlank(message = "{NOT_BLANK}")
+    @Pattern(regexp = "[a-zA-Z0-9\\s]", message = "{REGEX_CPU}")
     private String cpu;
     @Min(value = 1, message = "{MIN_GIA_TRI}")
     @Max(value = 999999999, message = "{MAX_GIA_TRI}")
@@ -33,12 +35,12 @@ public class SanPhamDTO {
     @Min(value = 1, message = "{MIN_GIA_TRI}")
     @Max(value = 999999999, message = "{MAX_GIA_TRI}")
     private long giaNiemYet;
-    @Pattern(regexp = "^[a-zA-Z0-9 ]{0,}$", message = "{REGEX_MAU_SAC}")
+    @Pattern(regexp = "[a-zA-Z0-9\\s]+", message = "{REGEX_MAU_SAC}")
     private String mauSac;
     @NotBlank(message = "{NOT_BLANK}")
     private String ram;
     @NotBlank(message = "{NOT_BLANK}")
-    @Pattern(regexp = "^[0-9]{1,}MP$", message = "{REGEX_CAMERA}")
+    @Pattern(regexp = "[1-9]([0-9]+)MP", message = "{REGEX_CAMERA}")
     private String camera;
     @NotBlank(message = "{NOT_BLANK}")
     private String imgUrl;

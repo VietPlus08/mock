@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Getter
@@ -24,16 +25,17 @@ public class NhanVien {
     @Column(length = 50)
     private String maNhanVien;
 
-    @Column(length = 50, columnDefinition = "nvarchar")
+    @Column(columnDefinition = "nvarchar(50)")
     private String tenNhanVien;
 
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private LocalDate ngaySinh;
 
     @Column(length = 10)
     private String gioiTinh;
 
     @Column(length = 10)
-    private String chucVu = "ROLE_STAFF";
+    private String chucVu;
 
     private String matKhau;
 

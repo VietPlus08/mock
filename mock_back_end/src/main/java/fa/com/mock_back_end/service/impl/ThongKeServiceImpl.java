@@ -49,7 +49,9 @@ public class ThongKeServiceImpl {
     }
 
     private void thongKeNhanVienProcess(ThongKeDTO thongKeDTO) {
-        List<NhanVienDTO> listNhanVienDTO = findListNhanVienDTO(thongKeDTO);
+        List<NhanVienDTO> listNhanVienDTO = findListNhanVienDTO(thongKeDTO).stream()
+                .filter(i -> !i.getMaNhanVien().equals("admin"))
+                .collect(Collectors.toList());
         thongKeDTO.setListNhanVien(listNhanVienDTO);
         listNhanVienDTO.forEach(i -> {
             thongKeDTO.setTongDoanhThu(i.getDoanhThu());

@@ -7,7 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("admin/nhan_vien")
@@ -37,6 +40,7 @@ public class NhanVienController {
 
     @PutMapping(value = "")
     public ResponseEntity<NhanVienDTO> updateItem(@Valid @RequestBody NhanVienDTO updateNhanVien) {
+        Map<String, String> errors = new HashMap<>();
         return ResponseEntity.ok().body(nhanVienService.update(updateNhanVien));
     }
 }
