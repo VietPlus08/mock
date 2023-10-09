@@ -20,6 +20,9 @@ public class NhanVienServiceImpl implements NhanVienService {
     NhanVienRepository nhanVienRepository;
 
     @Autowired
+    UserInforServiceImpl userInforService;
+
+    @Autowired
     ModelMapper modelMapper;
 
     @Override

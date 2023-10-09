@@ -19,7 +19,6 @@ public class NhaCungCapDTO {
     @NotBlank(message = "{NOT_BLANK}")
     @Email(message = "{EMAIL}")
     private String email;
-//    @Pattern(regexp = "^09[0-9]{8}$", message = "{REGEX_SO_DIEN_THOAI}")
     private String soDienThoai;
     @Pattern(regexp = "^[a-zA-Z0-9/ ]{1,}$", message = "{REGEX_DIA_CHI}")
     private String diaChi;

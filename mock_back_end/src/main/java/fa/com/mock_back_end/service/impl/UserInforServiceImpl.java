@@ -71,7 +71,7 @@ public class UserInforServiceImpl implements UserInforService {
 	nhanVien.setNgaySinh(nhanVienDTO.getNgaySinh());
 	nhanVien.setGioiTinh(nhanVienDTO.getGioiTinh());
 	nhanVien.setChucVu("ROLE_STAFF");
-	nhanVien.setMatKhau(passwordEncoder.encode(nhanVienDTO.getMatKhau()));
+	nhanVien.setMatKhau(passwordEncoder.encode(nhanVienDTO.getPassword()));
 
 	nhanVienRepository.save(nhanVien);
 	return "User Added Successfully";

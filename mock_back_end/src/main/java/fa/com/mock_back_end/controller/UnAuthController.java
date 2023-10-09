@@ -51,7 +51,7 @@ public class UnAuthController {
     public ResponseEntity<Map<String, String>> addNewEmployee(@Valid @RequestBody NhanVienDTOThangDN8 nhanVienDTO,
                                                               BindingResult result) {
         Map<String, String> messageMap = new HashMap<>();
-        if (!result.hasErrors() && nhanVienDTO.getMatKhau().equals(nhanVienDTO.getReMatKhau())) {
+        if (!result.hasErrors() && nhanVienDTO.getPassword().equals(nhanVienDTO.getRePassword())) {
             messageMap.put("success", userInforService.addUser(nhanVienDTO));
             return ResponseEntity.status(HttpStatus.OK).body(messageMap);
         }
@@ -59,7 +59,7 @@ public class UnAuthController {
             result.getFieldErrors().forEach(error -> messageMap.put(error.getField(), error.getDefaultMessage()));
         }
         // Kiểm tra mật khẩu và xác nhận mật khẩu
-        if (!nhanVienDTO.getMatKhau().equals(nhanVienDTO.getReMatKhau())) {
+        if (!nhanVienDTO.getPassword().equals(nhanVienDTO.getRePassword())) {
             messageMap.put("reMatKhau", "Xác nhận mật khẩu và mật khẩu không trùng khớp!!");
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageMap);

@@ -42,8 +42,6 @@ public class SanPhamDTO {
     private String camera;
     @NotBlank(message = "{NOT_BLANK}")
     private String imgUrl;
-    @Min(value = 1, message = "{MIN_SO_LUONG}")
-    @Max(value = 999, message = "{MAX_SO_LUONG}")
     private long soLuong;
     // các trường làm nhiệm vụ thống kê
     private long doanhThu;

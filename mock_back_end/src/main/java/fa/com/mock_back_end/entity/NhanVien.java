@@ -33,7 +33,7 @@ public class NhanVien {
     private String gioiTinh;
 
     @Column(length = 10)
-    private String chucVu;
+    private String chucVu = "ROLE_STAFF";
 
     private String matKhau;
 

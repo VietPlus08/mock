@@ -33,8 +33,8 @@ public class NhanVienDTOThangDN8 {
 
     @NotBlank(message = "Mật khẩu ít nhất 8 kí tự, gồm ít nhất 1 chữ hoa, chữ thường, số và ký tự đặc biệt")
     @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message = "Mật khẩu ít nhất 8 kí tự, gồm ít nhất 1 chữ hoa, chữ thường, số và ký tự đặc biệt")
-    private String matKhau;
+    private String password;
 
     @NotBlank(message = "Không được để trống")
-    private String reMatKhau;
+    private String rePassword;
 }
