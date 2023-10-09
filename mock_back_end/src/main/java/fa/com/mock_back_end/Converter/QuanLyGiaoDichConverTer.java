@@ -15,11 +15,7 @@ public class QuanLyGiaoDichConverTer {
     ModelMapper modelMapper;
 
     public DanhSachQuanLyGiaoDichDTO toQuanLyGiaoDichDto(HoaDonBanHang items) {
-        DanhSachQuanLyGiaoDichDTO danhSachQuanLyGiaoDichDTO= new DanhSachQuanLyGiaoDichDTO();
-        if(danhSachQuanLyGiaoDichDTO==null){
-            return danhSachQuanLyGiaoDichDTO;
-        }
-         danhSachQuanLyGiaoDichDTO = modelMapper.map(items, DanhSachQuanLyGiaoDichDTO.class);
+        DanhSachQuanLyGiaoDichDTO danhSachQuanLyGiaoDichDTO = modelMapper.map(items, DanhSachQuanLyGiaoDichDTO.class);
         Optional<NhanVien> nhanVien = Optional.ofNullable(items.getNhanVien());
         Optional<KhachHang> khachHang = Optional.ofNullable(items.getKhachHang());
         if (nhanVien.isPresent()) {

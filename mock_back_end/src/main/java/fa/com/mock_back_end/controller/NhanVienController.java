@@ -1,26 +1,23 @@
 package fa.com.mock_back_end.controller;
 
 import fa.com.mock_back_end.dto.NhanVienDTO;
-import fa.com.mock_back_end.entity.NhanVien;
 import fa.com.mock_back_end.service.NhanVienService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/nhan_vien")
+@RequestMapping("admin/nhan_vien")
 @CrossOrigin("http://localhost:3000/")
 public class NhanVienController {
     @Autowired
     NhanVienService nhanVienService;
 
     @GetMapping("")
-    public ResponseEntity<List<NhanVienDTO>> getList(){
+    public ResponseEntity<List<NhanVienDTO>> getList() {
         return ResponseEntity.ok().body(nhanVienService.findAllDTO());
     }
 

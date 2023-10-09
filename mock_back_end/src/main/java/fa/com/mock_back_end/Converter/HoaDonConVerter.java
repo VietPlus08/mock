@@ -20,11 +20,8 @@ public class HoaDonConVerter {
 
 
     public ChiTietHoaDonBanHangDTO toDto(ChiTietHoaDonBanHang chiTietHoaDonBanHang) {
-        ChiTietHoaDonBanHangDTO chiTietHoaDonBanHangDTO= new ChiTietHoaDonBanHangDTO();
-        if(chiTietHoaDonBanHang==null){
-            return chiTietHoaDonBanHangDTO;
-        }
-         chiTietHoaDonBanHangDTO = modelMapper.map(chiTietHoaDonBanHang, ChiTietHoaDonBanHangDTO.class);
+        ChiTietHoaDonBanHangDTO chiTietHoaDonBanHangDTO = modelMapper.map(chiTietHoaDonBanHang, ChiTietHoaDonBanHangDTO.class);
+
         Optional<SanPham> sanPham = Optional.ofNullable(chiTietHoaDonBanHang.getSanPham());
         if (sanPham.isPresent()) {
             chiTietHoaDonBanHangDTO.setMaSanPham(chiTietHoaDonBanHang.getSanPham().getMaSanPham());

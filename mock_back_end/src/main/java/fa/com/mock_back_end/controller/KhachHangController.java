@@ -1,7 +1,6 @@
 package fa.com.mock_back_end.controller;
 
 import fa.com.mock_back_end.dto.KhachHangDTO;
-import fa.com.mock_back_end.entity.KhachHang;
 import fa.com.mock_back_end.service.KhachHangService;
 import fa.com.mock_back_end.validation.KhachHangValidation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/khach_hang")
+@RequestMapping("/staff/khach_hang")
 @CrossOrigin("http://localhost:3000/")
 public class KhachHangController {
 
@@ -26,7 +24,7 @@ public class KhachHangController {
     KhachHangValidation khachHangValidation;
 
     @GetMapping("")
-    public ResponseEntity<List<KhachHangDTO>> getList(){
+    public ResponseEntity<List<KhachHangDTO>> getList() {
         return ResponseEntity.ok().body(khachHangService.findAllDTO());
     }
 
@@ -42,7 +40,7 @@ public class KhachHangController {
     @PostMapping(value = "")
     public ResponseEntity<?> createItem(@Valid @RequestBody KhachHangDTO khachHang) {
         Map<String, String> errors = khachHangValidation.validate(khachHang);
-        if (!errors.isEmpty()){
+        if (!errors.isEmpty()) {
             return ResponseEntity.badRequest().body(errors);
         }
 

@@ -3,10 +3,7 @@ package fa.com.mock_back_end.controller;
 import fa.com.mock_back_end.Converter.HoaDonConVerter;
 import fa.com.mock_back_end.Converter.QuanLyGiaoDichConverTer;
 import fa.com.mock_back_end.dto.*;
-import fa.com.mock_back_end.entity.ChiTietHoaDonBanHang;
-import fa.com.mock_back_end.entity.HoaDonBanHang;
-import fa.com.mock_back_end.entity.KhachHang;
-import fa.com.mock_back_end.entity.SanPham;
+import fa.com.mock_back_end.entity.*;
 import fa.com.mock_back_end.service.ChiTietHDBHService;
 import fa.com.mock_back_end.service.HDBHService;
 import fa.com.mock_back_end.service.KhachHangService;
@@ -16,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -28,24 +24,20 @@ import java.util.*;
  * Bán Hàng controller phục vụ lưu hóa đơn và xuất lịch sử giao dịch
  */
 @RestController
+@RequestMapping(value = "/staff")
 @CrossOrigin
 public class BanHangController {
 
     @Autowired
+    ModelMapper modelMapper;
+    @Autowired
     private KhachHangService khachHangService;
-
     @Autowired
     private HDBHService hdbhService;
-
     @Autowired
     private SanPhamService sanPhamService;
-
     @Autowired
     private ChiTietHDBHService chiTietHDBHService;
-
-    @Autowired
-    ModelMapper modelMapper;
-
     @Autowired
     private HoaDonConVerter hoaDonConVerter;
 
@@ -146,6 +138,7 @@ public class BanHangController {
 
         HoaDonBanHang hoaDonBanHang = new HoaDonBanHang();
         hoaDonBanHang.setKhachHang(khachHang);
+        hoaDonBanHang.setNhanVien(new NhanVien(banHangDTO.getMaNhanVien()));
         hoaDonBanHang.setThoiGianBanHang(LocalDateTime.now());
         hoaDonBanHang = hdbhService.save(hoaDonBanHang);
 
