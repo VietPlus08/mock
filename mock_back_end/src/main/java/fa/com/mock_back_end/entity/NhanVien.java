@@ -43,9 +43,13 @@ public class NhanVien {
     List<HoaDonBanHang> listHoaDonBanHang;
 
     public NhanVien(String maNhanVien, String chucVu, String matKhau) {
-	super();
-	this.maNhanVien = maNhanVien;
-	this.chucVu = chucVu;
-	this.matKhau = matKhau;
+        super();
+        this.maNhanVien = maNhanVien;
+        this.chucVu = chucVu;
+        this.matKhau = matKhau;
+    }
+
+    public NhanVien(String maNhanVien) {
+        this.maNhanVien = maNhanVien;
     }
 }

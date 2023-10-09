@@ -23,18 +23,18 @@ import java.util.List;
 public class BanHangDTO {
 
 
-    @Size(min = 1, max = 50,message = "Ten khach hang phai tu 1 den 50 ky tu")
-    @NotBlank(message = "Ten khach hang khong duoc de trong")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]{1,}$", message = "{REGEX_TEN}")
     private String tenKhachHang;
 
     @NotNull(message = "Ngay sinh khong duoc de trong")
     private LocalDate ngaySinh;
 
-    @NotBlank(message = "Gioi tinh khong duoc de trong")
+    private String maNhanVien;
+
+    @Pattern(regexp = "Nam|Nu|Khac", message = "{REGEX_GIOI_TINH}")
     private String gioiTinh;
 
-    @Pattern(regexp = "^(0|84)[0-9]{9}$", message = "so dien thoai bat dau bang 0 hoac 84, tiep theo la 9 chu so")
-    @NotBlank(message = "so dien thoai khong duoc de trong")
+    @Pattern(regexp = "^09[0-9]{8}$", message = "{REGEX_SO_DIEN_THOAI}")
     private String soDienThoai;
 
     @Valid
