@@ -13,6 +13,6 @@ public interface NhanVienRepository extends JpaRepository<NhanVien, String> {
 
     List<NhanVien> findByStatusTrue();
 
-    @Query(value = "SELECT ma_nhan_vien FROM nhan_vien WHERE ma_nhan_vien LIKE ?1%;", nativeQuery = true)
+    @Query(value = "SELECT ma_nhan_vien FROM nhan_vien WHERE ma_nhan_vien LIKE ?1% and status = 1;", nativeQuery = true)
     List<String> getListMaNhanVien(String maNhanVien);
 }
