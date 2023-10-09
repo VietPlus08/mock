@@ -1,5 +1,6 @@
 package fa.com.mock_back_end.service;
 
+import fa.com.mock_back_end.dto.TongHopHoaDonDTO;
 import fa.com.mock_back_end.entity.HoaDonBanHang;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface HDBHService {
     HoaDonBanHang save(HoaDonBanHang item);
     HoaDonBanHang delete(Long id);
     HoaDonBanHang update(HoaDonBanHang item);
+
+    int themChiTietHoaDonBanHang(List<TongHopHoaDonDTO> listChiTietHoaDon, HoaDonBanHang hoaDonBanHang);
 }

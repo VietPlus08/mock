@@ -4,10 +4,7 @@ import fa.com.mock_back_end.Converter.HoaDonConVerter;
 import fa.com.mock_back_end.Converter.QuanLyGiaoDichConverTer;
 import fa.com.mock_back_end.dto.*;
 import fa.com.mock_back_end.entity.*;
-import fa.com.mock_back_end.service.ChiTietHDBHService;
-import fa.com.mock_back_end.service.HDBHService;
-import fa.com.mock_back_end.service.KhachHangService;
-import fa.com.mock_back_end.service.SanPhamService;
+import fa.com.mock_back_end.service.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,12 +27,10 @@ public class BanHangController {
 
     @Autowired
     ModelMapper modelMapper;
-    @Autowired
-    private KhachHangService khachHangService;
+
     @Autowired
     private HDBHService hdbhService;
-    @Autowired
-    private SanPhamService sanPhamService;
+
     @Autowired
     private ChiTietHDBHService chiTietHDBHService;
     @Autowired
@@ -43,6 +38,9 @@ public class BanHangController {
 
     @Autowired
     private QuanLyGiaoDichConverTer quanLyGiaoDichConverTer;
+
+    @Autowired
+    private TongHopHoaDonService tongHopHoaDonService;
 
 
     /**
@@ -58,14 +56,7 @@ public class BanHangController {
         List<HoaDonBanHang> listHoaDonBanHang = Optional.ofNullable(hdbhService.findAll()).orElse(Collections.emptyList());
 
         for (HoaDonBanHang items : listHoaDonBanHang) {
-            DanhSachQuanLyGiaoDichDTO danhSachQuanLyGiaoDichDTO = new DanhSachQuanLyGiaoDichDTO();
-            try {
-                danhSachQuanLyGiaoDichDTO = quanLyGiaoDichConverTer.toQuanLyGiaoDichDto(items);
-            } catch (NullPointerException exception) {
-                exception.printStackTrace();
-            }
-
-            long tongHoadon = 0;
+            DanhSachQuanLyGiaoDichDTO danhSachQuanLyGiaoDichDTO =     danhSachQuanLyGiaoDichDTO = quanLyGiaoDichConverTer.toQuanLyGiaoDichDto(items);
 
             List<ChiTietHoaDonBanHangDTO> list = new ArrayList<>();
 
@@ -75,11 +66,9 @@ public class BanHangController {
                 ChiTietHoaDonBanHangDTO chiTietHoaDonBanHangDTO = hoaDonConVerter.toDto(element);
                 list.add(chiTietHoaDonBanHangDTO);
 
-                if (element.getGiaBanThuc() >= 0 && element.getSoLuong() >= 0) {
-                    tongHoadon = tongHoadon + element.getGiaBanThuc() * element.getSoLuong();
-                }
-
             }
+
+            long tongHoadon = chiTietHDBHService.tongHoaDon(chiTietHoaDonBanHangList);
 
             danhSachQuanLyGiaoDichDTO.setTongHoaDon(tongHoadon);
             danhSachQuanLyGiaoDichDTO.setChiTietHoaDonBanHang(list);
@@ -96,64 +85,31 @@ public class BanHangController {
      * Method Post
      */
     @PostMapping(value = "/invoice")
-
     public ResponseEntity<Map<String, String>> addItem(@Valid @RequestBody BanHangDTO banHangDTO) {
 
-//        List<TongHopHoaDonDTO> listChiTietHoaDon = banHangDTO.getChiTietHoaDonBanHang();
         List<TongHopHoaDonDTO> listChiTietHoaDon = Optional.ofNullable(banHangDTO.getChiTietHoaDonBanHang()).orElse(Collections.emptyList());
 
-        Map<String, String> errors = new HashMap<>();
-        int index = 0;
+        Map<String, Integer> map = new HashMap<>();
 
-        for (TongHopHoaDonDTO items : listChiTietHoaDon) {
-            // thay null bằng new SanPham
-            SanPham sanPham = sanPhamService.findById(items.getMaSanPham()).orElse(new SanPham());
-
-            if (items.getSoLuong() > sanPham.getSoLuong()) {
-                errors.put("chiTietHoaDonBanHang[" + index + "].soLuong", "So luong san pham con lai khong dap ung yeu cau cua ban hoac san pham khong ton tai ");
-            }
-            index++;
-        }
+        Map<Long, Integer> danhSachTong = chiTietHDBHService.themHoaDonVaoMap(listChiTietHoaDon);
+        Map<String, String> errors = chiTietHDBHService.checkSoLuongTrongKho(danhSachTong, listChiTietHoaDon);
 
         if (!errors.isEmpty()) {
             HoaDonBanHangDTO errorResponse = new HoaDonBanHangDTO();
             errorResponse.setErrors(errors);
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
-
         // update số lượng sản phầm tổng kho
-        for (TongHopHoaDonDTO items : listChiTietHoaDon) {
-            SanPham sanPham = sanPhamService.findById(items.getMaSanPham()).orElse(new SanPham());
-            sanPham.setSoLuong(-items.getSoLuong());
-            sanPhamService.save(sanPham);
-        }
+        chiTietHDBHService.thayDoiSoLuongSanPham(listChiTietHoaDon);
 
-        KhachHang khachHang = new KhachHang();
-        if (khachHangService.findByStatusTrueAndSoDienThoai(banHangDTO.getSoDienThoai()) == null) {
-            khachHang = modelMapper.map(banHangDTO, KhachHang.class);
-            khachHang = khachHangService.save(khachHang);
-        } else {
-            khachHang = khachHangService.findByStatusTrueAndSoDienThoai(banHangDTO.getSoDienThoai());
-        }
+        KhachHang khachHang = chiTietHDBHService.themKhachHangMoi(banHangDTO);
 
-        HoaDonBanHang hoaDonBanHang = new HoaDonBanHang();
-        hoaDonBanHang.setKhachHang(khachHang);
-        hoaDonBanHang.setNhanVien(new NhanVien(banHangDTO.getMaNhanVien()));
-        hoaDonBanHang.setThoiGianBanHang(LocalDateTime.now());
-        hoaDonBanHang = hdbhService.save(hoaDonBanHang);
+        HoaDonBanHang hoaDonBanHang = tongHopHoaDonService.themHoaDonBanHang(khachHang, banHangDTO);
 
-        for (TongHopHoaDonDTO items : listChiTietHoaDon) {
-            ChiTietHoaDonBanHang chiTietHoaDonBanHang = modelMapper.map(items, ChiTietHoaDonBanHang.class);
-
-            SanPham sanPham = sanPhamService.findById(items.getMaSanPham()).orElse(null);
-
-            chiTietHoaDonBanHang.setSanPham(sanPham);
-            chiTietHoaDonBanHang.setHoaDonBanHang(hoaDonBanHang);
-            chiTietHoaDonBanHang = chiTietHDBHService.save(chiTietHoaDonBanHang);
-        }
-//        HoaDonBanHangDTO hoaDonBanHangDTO = modelMapper.map(hoaDonBanHang, HoaDonBanHangDTO.class);
+        hdbhService.themChiTietHoaDonBanHang(listChiTietHoaDon, hoaDonBanHang);
         Map<String, String> success = new HashMap<>();
         success.put("Success", "Hoa don duoc luu thanh cong ");
         return ResponseEntity.ok(success);
     }
+
 }
