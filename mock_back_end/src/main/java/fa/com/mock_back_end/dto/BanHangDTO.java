@@ -23,7 +23,7 @@ import java.util.List;
 public class BanHangDTO {
 
     @NotBlank(message = "{REGEX_TEN}")
-    @Pattern(regexp = "[0-9\\p{L}_\\s]+", message = "{REGEX_TEN}")
+    @Pattern(regexp = "^[a-zA-z0-9\\s]+", message = "{REGEX_TEN}")
     private String tenKhachHang;
 
 

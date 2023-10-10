@@ -48,11 +48,11 @@ public class UnAuthController {
     }
 
     @RequestMapping(value = "/admin/register", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, String>> addNewEmployee(@Valid @RequestBody NhanVienDTOThangDN8 nhanVienDTO,
+    public ResponseEntity<?> addNewEmployee(@Valid @RequestBody NhanVienDTOThangDN8 nhanVienDTO,
                                                               BindingResult result) {
         Map<String, String> messageMap = new HashMap<>();
         if (!result.hasErrors() && nhanVienDTO.getPassword().equals(nhanVienDTO.getRePassword())) {
-            messageMap.put("success", userInforService.addUser(nhanVienDTO));
+            messageMap.put("maNhanVien", userInforService.addUser(nhanVienDTO));
             return ResponseEntity.status(HttpStatus.OK).body(messageMap);
         }
         if (result.hasErrors()) {

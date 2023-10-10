@@ -74,6 +74,6 @@ public class UserInforServiceImpl implements UserInforService {
 	nhanVien.setMatKhau(passwordEncoder.encode(nhanVienDTO.getPassword()));
 
 	nhanVienRepository.save(nhanVien);
-	return "User Added Successfully";
+	return nhanVien.getMaNhanVien();
     }
 }

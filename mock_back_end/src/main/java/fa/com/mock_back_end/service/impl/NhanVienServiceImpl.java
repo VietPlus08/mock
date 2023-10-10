@@ -66,9 +66,12 @@ public class NhanVienServiceImpl implements NhanVienService {
 
     @Override
     public NhanVienDTO update(NhanVienDTO nhanVienDTO) {
-        return nhanVienDTO == null || nhanVienDTO.getMaNhanVien() == null
-                ? null :
-                getNhanVienDTO(nhanVienRepository.save(getNhanVien(nhanVienDTO)));
+        if (nhanVienDTO.getPassword() == null) {
+            nhanVienRepository.updateNhanVienInfor(nhanVienDTO.getTenNhanVien(), nhanVienDTO.getNgaySinh(), nhanVienDTO.getGioiTinh(), nhanVienDTO.getMaNhanVien());
+        } else {
+            nhanVienRepository.updateNhanVienPassword(nhanVienDTO.getPassword(), nhanVienDTO.getMaNhanVien());
+        }
+        return nhanVienDTO;
     }
 
     public NhanVienDTO getNhanVienDTO(NhanVien nhanVien) {

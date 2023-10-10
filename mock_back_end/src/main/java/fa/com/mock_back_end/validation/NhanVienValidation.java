@@ -28,16 +28,27 @@ public class NhanVienValidation {
 
     public Map<String, String> validate(NhanVienDTO nhanVienDTO) {
         Map<String, String> errors = new HashMap<>();
-        Optional<NhanVien> nhanVien = nhanVienService.findById(nhanVienDTO.getMaNhanVien());
-        if (!Objects.equals(nhanVienDTO.getPassword(), nhanVienDTO.getRePassword())) {
-            errors.put("rePassword", "Password không trùng nhau!");
+        if (nhanVienDTO.getPassword() == null) {
+            if (nhanVienDTO.getRePassword() != null) {
+                errors.put("password", "Không được để trông");
+            }
+            // nếu password, repassword bằng null thì ko validate
+            // --> chuyển sang cập nhật thông tin tài khoản
+            return errors;
         }
+        // nếu password khác null thì mới tiến hành validate
+        Optional<NhanVien> nhanVien = nhanVienService.findById(nhanVienDTO.getMaNhanVien());
+//        if (!Objects.equals(nhanVienDTO.getPassword(), nhanVienDTO.getRePassword())) {
+//            errors.put("rePassword", "Password không trùng nhau!");
+//        }
         if (nhanVien.isPresent()
                 && passwordEncoder.matches(nhanVienDTO.getPassword(), nhanVien.get().getMatKhau())) {
             errors.put("password", "Bạn hay thay đổi password!");
         }
-        if (nhanVienDTO.getNgaySinh().isAfter(LocalDate.now())){
-            errors.put("ngaySinh","Ngày sinh phải trước ngày hiện tại");
+        if (nhanVienDTO.getNgaySinh().
+
+                isAfter(LocalDate.now())) {
+            errors.put("ngaySinh", "Ngày sinh phải trước ngày hiện tại");
         }
         return errors;
     }
