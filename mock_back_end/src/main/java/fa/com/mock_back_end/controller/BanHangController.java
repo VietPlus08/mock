@@ -52,11 +52,11 @@ public class BanHangController {
     @GetMapping(value = "/invoice")
     public ResponseEntity<List<DanhSachQuanLyGiaoDichDTO>> getItem() {
         List<DanhSachQuanLyGiaoDichDTO> lyGiaoDichDTO = new ArrayList<>();
-//        List<HoaDonBanHang> listHoaDonBanHang = hdbhService.findAll();
+
         List<HoaDonBanHang> listHoaDonBanHang = Optional.ofNullable(hdbhService.findAll()).orElse(Collections.emptyList());
 
         for (HoaDonBanHang items : listHoaDonBanHang) {
-            DanhSachQuanLyGiaoDichDTO danhSachQuanLyGiaoDichDTO =     danhSachQuanLyGiaoDichDTO = quanLyGiaoDichConverTer.toQuanLyGiaoDichDto(items);
+            DanhSachQuanLyGiaoDichDTO danhSachQuanLyGiaoDichDTO = quanLyGiaoDichConverTer.toQuanLyGiaoDichDto(items);
 
             List<ChiTietHoaDonBanHangDTO> list = new ArrayList<>();
 
@@ -65,7 +65,6 @@ public class BanHangController {
             for (ChiTietHoaDonBanHang element : chiTietHoaDonBanHangList) {
                 ChiTietHoaDonBanHangDTO chiTietHoaDonBanHangDTO = hoaDonConVerter.toDto(element);
                 list.add(chiTietHoaDonBanHangDTO);
-
             }
 
             long tongHoadon = chiTietHDBHService.tongHoaDon(chiTietHoaDonBanHangList);
@@ -92,6 +91,7 @@ public class BanHangController {
         Map<String, Integer> map = new HashMap<>();
 
         Map<Long, Integer> danhSachTong = chiTietHDBHService.themHoaDonVaoMap(listChiTietHoaDon);
+
         Map<String, String> errors = chiTietHDBHService.checkSoLuongTrongKho(danhSachTong, listChiTietHoaDon);
 
         if (!errors.isEmpty()) {

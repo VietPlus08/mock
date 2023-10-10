@@ -24,7 +24,7 @@ public class NhanVien {
     @Column(length = 50)
     private String maNhanVien;
 
-    @Column(length = 50, columnDefinition = "nvarchar")
+    @Column(columnDefinition = "nvarchar(50)")
     private String tenNhanVien;
 
     private LocalDate ngaySinh;
