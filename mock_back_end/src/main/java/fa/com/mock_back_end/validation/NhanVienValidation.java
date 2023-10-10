@@ -28,7 +28,7 @@ public class NhanVienValidation {
     public Map<String, String> validate(NhanVienDTO nhanVienDTO) {
         Map<String, String> errors = new HashMap<>();
         Optional<NhanVien> nhanVien = nhanVienService.findById(nhanVienDTO.getMaNhanVien());
-        if (!Objects.equals(nhanVienDTO.getPassword(), nhanVienDTO.getNewPassword())) {
+        if (!Objects.equals(nhanVienDTO.getPassword(), nhanVienDTO.getRePassword())) {
             errors.put("rePassword", "Password không trùng nhau!");
         }
         if (nhanVien.isPresent()

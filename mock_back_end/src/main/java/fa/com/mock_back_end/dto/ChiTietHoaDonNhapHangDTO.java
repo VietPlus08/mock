@@ -19,7 +19,7 @@ public class ChiTietHoaDonNhapHangDTO {
 
     private Long maChiTietHoaDonNhapHang;
     @Min(value = 1, message = "{MIN_SO_LUONG}")
-    @Max(value = 999, message = "{MAX_SO_LUONG}")
+    @Max(value = 1000000, message = "{MAX_SO_LUONG}")
     private int soLuong;
     @NotNull(message = "{NOT_NULL}")
     private SanPhamDTO sanPhamDTO;

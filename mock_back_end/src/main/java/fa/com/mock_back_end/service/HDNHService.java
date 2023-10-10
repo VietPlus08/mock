@@ -16,7 +16,6 @@ public interface HDNHService {
     List<HoaDonNhapHang> findAll();
     Optional<HoaDonNhapHang> findById(Long id);
     NhapHangDTO save(NhapHangDTO item);
-    HoaDonNhapHang delete(Long id);
     NhapHangDTO update(NhapHangDTO item);
     long getTongTien(List<ChiTietHoaDonNhapHangDTO> listChiTietHoaDonNhapHangDTO);
     public List<ChiTietHoaDonNhapHang> getListChiTietHoaDonNhapHang(List<ChiTietHoaDonNhapHangDTO> listChiTietHoaDonNhapHangDTO,

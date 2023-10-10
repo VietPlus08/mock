@@ -41,7 +41,7 @@ public class HDNHServiceImpl implements HDNHService {
     ModelMapper modelMapper;
 
     /**
-    * @Description findAllDTO
+    * Lấy ra list NhapHangDTO
     * @Param
     * @Return List<NhapHangDTO>
     */
@@ -53,7 +53,7 @@ public class HDNHServiceImpl implements HDNHService {
     }
 
     /**
-    * @Description findAll
+    * Lấy ra list HoaDonNhapHang
     * @Param
     * @Return List<HoaDonNhapHang>
     */
@@ -63,7 +63,7 @@ public class HDNHServiceImpl implements HDNHService {
     }
 
     /**
-    * @Description findById
+    * Tìm kiếm HopDonNhapHang theo id
     * @Param id
     * @Return Optional<HoaDonNhapHang>
     */
@@ -73,7 +73,7 @@ public class HDNHServiceImpl implements HDNHService {
     }
 
     /**
-    * @Description save
+    * Lưu đối tượng NhapHangDTO
     * @Param nhapHangDTO
     * @Return NhapHangDTO
     */
@@ -96,22 +96,7 @@ public class HDNHServiceImpl implements HDNHService {
     }
 
     /**
-    * @Description delete
-    * @Param id
-    * @Return HoaDonNhapHang
-    */
-    @Override
-    public HoaDonNhapHang delete(Long id) {
-        Optional<HoaDonNhapHang> hoaDonNhapHang = findById(id);
-        if (hoaDonNhapHang.isPresent()) {
-            hoaDonNhapHang.get().setStatus(false);
-            return HDNHRepository.save(hoaDonNhapHang.get());
-        }
-        return null;
-    }
-
-    /**
-    * @Description update
+    * Cập nhật NhapHang
     * @Param nhapHangDTO
     * @Return NhapHangDTO
     */
@@ -123,7 +108,7 @@ public class HDNHServiceImpl implements HDNHService {
     }
 
     /**
-    * @Description getTongTien
+    * Tính toán tổng tiền của list ChiTietNhapHangDTO
     * @Param listChiTietNhapHangDTO
     * @Return long
     */
@@ -135,7 +120,7 @@ public class HDNHServiceImpl implements HDNHService {
     }
 
     /**
-    * @Description getGiaVon
+    * Tìm kiếm giá vốn theo mã sản phẩm
     * @Param list
     * @Param maSanPham
     * @Return long
@@ -149,7 +134,7 @@ public class HDNHServiceImpl implements HDNHService {
     }
 
     /**
-    * @Description getListChiTietHoaDonNhapHang
+    * Lấy ra list ChiTietNhapHangDTO
     * @Param listChiTietNhapHangDTO
     * @Param maHoaDonNhapHang
     * @Return List<ChiTietHoaDonNhapHang>
@@ -162,7 +147,7 @@ public class HDNHServiceImpl implements HDNHService {
     }
 
     /**
-    * @Description getChiTietHoaDonNhapHang
+    * Chuyển đổi từ ChiTietHoaDonNhapHangDTO sang ChiTietHoaDonNhapHang
     * @Param chiTietNhapHangDTO
     * @Param maHoaDonNhapHang
     * @Return ChiTietHoaDonNhapHang
@@ -178,14 +163,15 @@ public class HDNHServiceImpl implements HDNHService {
     }
 
     /**
-    * @Description getNhapHangDTO
+    * Chuyển đổi từ HoaDonNhapHang sang NhapHangDTO
     * @Param nhapHang
     * @Return NhapHangDTO
     */
     public NhapHangDTO getNhapHangDTO(HoaDonNhapHang nhapHang) {
         NhapHangDTO nhapHangDTO = modelMapper.map(nhapHang, NhapHangDTO.class);
         NhaCungCap nhaCungCap = nhapHang.getNhaCungCap() == null
-                ? null : nhapHang.getNhaCungCap();
+                    ? null
+                    : nhapHang.getNhaCungCap();
         if (nhaCungCap != null) {
             nhapHangDTO.setMaNhaCungCap(nhaCungCap.getMaNhaCungCap());
             nhapHangDTO.setTenNhaCungCap(nhaCungCap.getTenNhaCungCap());
@@ -195,7 +181,7 @@ public class HDNHServiceImpl implements HDNHService {
     }
 
     /**
-    * @Description getListChiTietNhapHangDTO
+    * Chuyển đổi từ ListChiTietNhapHang sang ListChiTietNhapHangDTO
     * @Param list
     * @Return List<ChiTietNhapHangDTO>
     */
@@ -208,7 +194,7 @@ public class HDNHServiceImpl implements HDNHService {
     }
 
     /**
-    * @Description getChiTietNhapHangDTO
+    * Chuyển đổi từ ChiTietNhapHang sang ChiTietNhapHangDTO
     * @Param chiTietHoaDonNhapHang
     * @Return ChiTietNhapHangDTO
     */
@@ -219,7 +205,7 @@ public class HDNHServiceImpl implements HDNHService {
     }
 
     /**
-    * @Description getSanPhamDTO
+    * Chuyển đổi từ SanPham sang SanPhamDTO
     * @Param sanPham
     * @Return SanPhamDTO
     */

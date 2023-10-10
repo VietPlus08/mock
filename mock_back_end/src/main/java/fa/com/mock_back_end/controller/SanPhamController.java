@@ -22,7 +22,7 @@ public class SanPhamController {
     SanPhamService sanPhamService;
 
     /**
-     * @Description getList
+     * Trả về response gồm list SanPhamDTO
      * @Param
      * @Return List<SanPhamDTO>
      */
@@ -32,7 +32,7 @@ public class SanPhamController {
     }
 
     /**
-     * @Description deleteItem
+     * Thực hiện xóa SanPham từ thông tin request gửi đến
      * @Param id
      * @Return SanPhamDTO
      */
@@ -46,7 +46,7 @@ public class SanPhamController {
     }
 
     /**
-     * @Description createItem
+     * Thực hiện lưu SanPham từ thông tin request gửi đến
      * @Param sanPham
      * @Return SanPhamDTO
      */
@@ -56,7 +56,7 @@ public class SanPhamController {
     }
 
     /**
-     * @Description updateItem
+     * Thực hiện cập nhật SanPham từ thông tin request gửi đến
      * @Param sanPham
      * @Return SanPhamDTO
      */

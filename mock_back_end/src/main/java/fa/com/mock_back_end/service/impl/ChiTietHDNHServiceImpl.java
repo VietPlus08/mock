@@ -22,7 +22,7 @@ public class ChiTietHDNHServiceImpl implements ChiTietHDNHService {
     ChiTietHDNHRepository chiTietHDNHRepository;
 
     /**
-    * @Description findAll
+    * Lấy ra list ChiTietHoaDonNhapHang
     * @Param
     * @Return List<ChiTietHoaDonNhapHang>
     */
@@ -32,7 +32,7 @@ public class ChiTietHDNHServiceImpl implements ChiTietHDNHService {
     }
 
     /**
-    * @Description findById
+    * Tìm kiếm đối tượng ChiTietHoaDonNhapHang theo tham số id
     * @Param id
     * @Return Optional<ChiTietHoaDonNhapHang>
     */
@@ -42,7 +42,7 @@ public class ChiTietHDNHServiceImpl implements ChiTietHDNHService {
     }
 
     /**
-    * @Description save
+    * Lưu đối tượng ChiTietHoaDonNhapHang
     * @Param data
     * @Return ChiTietHoaDonNhapHang
     */
@@ -52,7 +52,7 @@ public class ChiTietHDNHServiceImpl implements ChiTietHDNHService {
     }
 
     /**
-    * @Description saveAll
+    * Lưu một list ChiTietHoaDonNhapHang
     * @Param listData
     * @Return
     */
@@ -61,7 +61,7 @@ public class ChiTietHDNHServiceImpl implements ChiTietHDNHService {
     }
 
     /**
-    * @Description delete
+    * Xóa đối tượng ChiTietHoaDonNhapHang (chức năng chưa sử dụng)
     * @Param id
     * @Return ChiTietHoaDonNhapHang
     */
@@ -76,7 +76,7 @@ public class ChiTietHDNHServiceImpl implements ChiTietHDNHService {
     }
 
     /**
-    * @Description update
+    * Cập nhật đối tượng ChiTietHoaDonNhapHang
     * @Param data
     * @Return ChiTietHoaDonNhapHang
     */

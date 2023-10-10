@@ -27,7 +27,7 @@ public class SanPhamServiceImpl implements SanPhamService {
     ModelMapper modelMapper;
 
     /**
-    * @Description findAllDTO
+    * Lấy list SanPhamDTO
     * @Param
     * @Return List<SanPhamDTO>
     */
@@ -39,7 +39,7 @@ public class SanPhamServiceImpl implements SanPhamService {
     }
 
     /**
-    * @Description findAll
+    * Lấy list SanPham
     * @Param
     * @Return List<SanPham>
     */
@@ -49,7 +49,7 @@ public class SanPhamServiceImpl implements SanPhamService {
     }
 
     /**
-    * @Description findById
+    * Lấy đối tượng SanPham theo tham số id
     * @Param id
     * @Return Optional<SanPham>
     */
@@ -59,7 +59,7 @@ public class SanPhamServiceImpl implements SanPhamService {
     }
 
     /**
-    * @Description findDTOById
+    * Lấy đối tượng SanPhamDTO theo tham số id
     * @Param id
     * @Return Optional<SanPhamDTO>
     */
@@ -71,7 +71,7 @@ public class SanPhamServiceImpl implements SanPhamService {
     }
 
     /**
-    * @Description save
+    * Lưu đối tượng SanPham
     * @Param sanPham
     * @Return SanPham
     */
@@ -81,7 +81,7 @@ public class SanPhamServiceImpl implements SanPhamService {
     }
 
     /**
-     * @Description findByTenSanPham
+     * Lấy đối tượng SanPham theo tham số tenSanPham
      * @Param tenSanPham
      * @Return SanPham
      */
@@ -91,7 +91,7 @@ public class SanPhamServiceImpl implements SanPhamService {
     }
 
     /**
-    * @Description save
+    * Lưu đối tượng SanPham
     * @Param sanPham
     * @Return SanPhamDTO
     */
@@ -101,7 +101,7 @@ public class SanPhamServiceImpl implements SanPhamService {
     }
 
     /**
-    * @Description delete
+    * Xóa đối tượng SanPham
     * @Param id
     * @Return SanPhamDTO
     */
@@ -116,7 +116,7 @@ public class SanPhamServiceImpl implements SanPhamService {
     }
 
     /**
-    * @Description update
+    * Cập nhật đối tượng SanPham
     * @Param sanPham
     * @Return SanPhamDTO
     */
@@ -128,7 +128,7 @@ public class SanPhamServiceImpl implements SanPhamService {
     }
 
     /**
-    * @Description updateInventory
+    * Cập nhật hàng tồn kho
     * @Param maSanPham
     * @Param soLuong
     * @Return
@@ -140,7 +140,7 @@ public class SanPhamServiceImpl implements SanPhamService {
     }
 
     /**
-    * @Description getSanPhamDTO
+    * Chuyển đổi dữ liệu từ SanPham thành SanPhamDTO
     * @Param sanPham
     * @Return SanPhamDTO
     */
@@ -149,7 +149,7 @@ public class SanPhamServiceImpl implements SanPhamService {
     }
 
     /**
-    * @Description getSanPham
+    * Chuyển đổi dữ liệu từ SanPham thành SanPhamDTO
     * @Param sanPham
     * @Return SanPham
     */

@@ -2,6 +2,7 @@ package fa.com.mock_back_end.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.Column;
 import javax.validation.constraints.*;
@@ -27,13 +28,13 @@ public class SanPhamDTO {
     @Pattern(regexp = "[1-9]([0-9]+)GB", message = "{REGEX_BO_NHO}")
     private String boNhoTrong;
     @NotBlank(message = "{NOT_BLANK}")
-    @Pattern(regexp = "[a-zA-Z0-9\\s]", message = "{REGEX_CPU}")
+    @Pattern(regexp = "[a-zA-Z0-9\\s]+", message = "{REGEX_CPU}")
     private String cpu;
     @Min(value = 1, message = "{MIN_GIA_TRI}")
-    @Max(value = 999999999, message = "{MAX_GIA_TRI}")
+    @Max(value = 1000000000, message = "{MAX_GIA_TRI}")
     private long giaVon;
     @Min(value = 1, message = "{MIN_GIA_TRI}")
-    @Max(value = 999999999, message = "{MAX_GIA_TRI}")
+    @Max(value = 1000000000, message = "{MAX_GIA_TRI}")
     private long giaNiemYet;
     @Pattern(regexp = "[a-zA-Z0-9\\s]+", message = "{REGEX_MAU_SAC}")
     private String mauSac;

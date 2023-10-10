@@ -23,7 +23,7 @@ public class NhapHangController {
     HDNHService HDNHService;
 
     /**
-     * @Description getList
+     * Trả về response gồm list NhapHangDTO
      * @Param
      * @Return List<NhapHangDTO>
      */
@@ -33,8 +33,8 @@ public class NhapHangController {
     }
 
     /**
-     * @Description createItem
-     * @Param NhapHangDTO
+     * Thực hiện lưu đối tượng HoaDonNhapHang từ thông tin request gửi đến
+     * @Param nhapHangDTO
      * @Return HoaDonNhapHang
      */
     @PostMapping(value = "")
@@ -43,13 +43,13 @@ public class NhapHangController {
     }
 
     /**
-     * @Description updateItem
-     * @Param HoaDonNhapHang
+     * Thực hiện cập nhật đối tượng HoaDonNhapHang từ thông tin request gửi đến
+     * @Param nhapHangDTO
      * @Return HoaDonNhapHang
      */
     @PutMapping(value = "")
-    public ResponseEntity<NhapHangDTO> updateItem(@Valid @RequestBody NhapHangDTO updateNhapHangDTO) {
-        NhapHangDTO nhapHangDTOResponse = HDNHService.update(updateNhapHangDTO);
+    public ResponseEntity<NhapHangDTO> updateItem(@Valid @RequestBody NhapHangDTO nhapHangDTO) {
+        NhapHangDTO nhapHangDTOResponse = HDNHService.update(nhapHangDTO);
         return nhapHangDTOResponse == null
                 ? ResponseEntity.badRequest().build()
                 : ResponseEntity.ok().body(nhapHangDTOResponse);

@@ -43,7 +43,6 @@ public class KhachHangController {
         if (!errors.isEmpty()) {
             return ResponseEntity.badRequest().body(errors);
         }
-
         return ResponseEntity.ok().body(khachHangService.save(khachHang));
     }
 

@@ -2,13 +2,12 @@ package fa.com.mock_back_end.controller;
 
 import fa.com.mock_back_end.dto.NhanVienDTO;
 import fa.com.mock_back_end.service.NhanVienService;
+import fa.com.mock_back_end.validation.NhanVienValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +17,9 @@ import java.util.Map;
 public class NhanVienController {
     @Autowired
     NhanVienService nhanVienService;
+
+    @Autowired
+    NhanVienValidation nhanVienValidation;
 
     @GetMapping("")
     public ResponseEntity<List<NhanVienDTO>> getList() {
@@ -39,8 +41,11 @@ public class NhanVienController {
     }
 
     @PutMapping(value = "")
-    public ResponseEntity<NhanVienDTO> updateItem(@Valid @RequestBody NhanVienDTO updateNhanVien) {
-        Map<String, String> errors = new HashMap<>();
-        return ResponseEntity.ok().body(nhanVienService.update(updateNhanVien));
+    public ResponseEntity<?> updateItem(@Valid @RequestBody NhanVienDTO nhanVien) {
+        Map<String, String> errors = nhanVienValidation.validate(nhanVien);
+        if (!errors.isEmpty()) {
+            return ResponseEntity.badRequest().body(errors);
+        }
+        return ResponseEntity.ok().body(nhanVienService.update(nhanVien));
     }
 }
