@@ -22,10 +22,12 @@ import java.util.List;
 @AllArgsConstructor
 public class BanHangDTO {
 
-
+    @NotBlank(message = "{REGEX_TEN}")
     @Pattern(regexp = "^[a-zA-Z0-9 ]{1,}$", message = "{REGEX_TEN}")
     private String tenKhachHang;
 
+
+//    @DateTimeFormat(pattern = "yyyy-mm-dd")
     @NotNull(message = "Ngay sinh khong duoc de trong")
     private LocalDate ngaySinh;
 

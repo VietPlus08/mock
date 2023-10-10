@@ -24,14 +24,14 @@ public class MockBackEndApplication {
 	SpringApplication.run(MockBackEndApplication.class, args);
     }
 
-//    @Bean
-//    CommandLineRunner run(NhanVienRepository nhanVienRepository, PasswordEncoder encoder) {
-//	return args -> {
-//	    if (nhanVienRepository.findById("admin").isPresent()) {
-//		return;
-//	    }
-//	    NhanVien nv = new NhanVien("admin", "ROLE_ADMIN", encoder.encode("admin"));
-//	    nhanVienRepository.save(nv);
-//	};
-//    }
+    @Bean
+    CommandLineRunner run(NhanVienRepository nhanVienRepository, PasswordEncoder encoder) {
+	return args -> {
+	    if (nhanVienRepository.findById("admin").isPresent()) {
+		return;
+	    }
+	    NhanVien nv = new NhanVien("admin", "ROLE_ADMIN", encoder.encode("admin"));
+	    nhanVienRepository.save(nv);
+	};
+    }
 }

@@ -18,7 +18,7 @@ public class NhaCungCap {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long maNhaCungCap;
-    @Column(length = 50)
+    @Column(columnDefinition = "nvarchar(50)")
     private String tenNhaCungCap;
     @Column(length = 100)
     private String email;

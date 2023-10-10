@@ -23,7 +23,7 @@ public class SanPham {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long maSanPham;
-    @Column(length = 50)
+    @Column(columnDefinition = "nvarchar(50)")
     private String tenSanPham;
     @Column(length = 50)
     private String nhanHang;

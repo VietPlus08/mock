@@ -18,7 +18,7 @@ public class KhachHang {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long maKhachHang;
-    @Column(length = 50, columnDefinition = "nvarchar(50)")
+    @Column(columnDefinition = "nvarchar(50)")
     private String tenKhachHang;
     private LocalDate ngaySinh;
     @Column(length = 10)

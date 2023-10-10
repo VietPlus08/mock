@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 public class KhachHangDTO {
 
     private Long maKhachHang;
+    @NotBlank(message = "{REGEX_TEN}")
     @Pattern(regexp = "^[a-zA-Z0-9 ]{1,}$", message = "{REGEX_TEN}")
     private String tenKhachHang;
     @DateTimeFormat(pattern = "yyyy-mm-dd")

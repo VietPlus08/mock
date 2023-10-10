@@ -14,6 +14,7 @@ import javax.validation.constraints.Pattern;
 public class NhaCungCapDTO {
 
     private Long maNhaCungCap;
+    @NotBlank(message = "{REGEX_TEN}")
     @Pattern(regexp = "^[a-zA-Z0-9 ]{1,}$", message = "{REGEX_TEN}")
     private String tenNhaCungCap;
     @NotBlank(message = "{NOT_BLANK}")
