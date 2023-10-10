@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -92,7 +91,7 @@ public class BanHangController {
 
         Map<Long, Integer> danhSachTong = chiTietHDBHService.themHoaDonVaoMap(listChiTietHoaDon);
 
-        Map<String, String> errors = chiTietHDBHService.checkSoLuongTrongKho(danhSachTong, listChiTietHoaDon);
+        Map<String, String> errors = chiTietHDBHService.checkSoLuongTrongKho(danhSachTong, listChiTietHoaDon, banHangDTO);
 
         if (!errors.isEmpty()) {
             HoaDonBanHangDTO errorResponse = new HoaDonBanHangDTO();

@@ -6,6 +6,7 @@ import fa.com.mock_back_end.repository.KhachHangRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +21,9 @@ public class KhachHangValidation {
         KhachHang findKhachHang = khachHangRepository.findBySoDienThoai(khachHang.getSoDienThoai());
         if (findKhachHang != null){
             errors.put("soDienThoai","Số điện thoại đã tồn tại");
+        }
+        if (khachHang.getNgaySinh().isAfter(LocalDate.now())){
+            errors.put("ngaySinh","Ngày sinh phải trước ngày hiện tại");
         }
         return errors;
     }

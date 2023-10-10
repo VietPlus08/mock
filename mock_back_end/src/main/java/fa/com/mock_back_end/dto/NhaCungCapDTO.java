@@ -15,7 +15,7 @@ public class NhaCungCapDTO {
 
     private Long maNhaCungCap;
     @NotBlank(message = "{REGEX_TEN}")
-    @Pattern(regexp = "^[a-zA-Z0-9 ]{1,}$", message = "{REGEX_TEN}")
+    @Pattern(regexp = "[0-9\\p{L}_\\s]+", message = "{REGEX_TEN}")
     private String tenNhaCungCap;
     @NotBlank(message = "{NOT_BLANK}")
     @Email(message = "{EMAIL}")

@@ -5,14 +5,13 @@ import fa.com.mock_back_end.dto.TongHopHoaDonDTO;
 import fa.com.mock_back_end.entity.*;
 import fa.com.mock_back_end.repository.ChiTietHDBHRepository;
 import fa.com.mock_back_end.service.ChiTietHDBHService;
-import fa.com.mock_back_end.service.HDBHService;
 import fa.com.mock_back_end.service.KhachHangService;
 import fa.com.mock_back_end.service.SanPhamService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,7 +129,7 @@ public class ChiTietHDBHServiceImpl implements ChiTietHDBHService {
      * @return Map<String, String> errors
      */
     @Override
-    public Map<String, String> checkSoLuongTrongKho(Map<Long, Integer> danhSachTong, List<TongHopHoaDonDTO> listChiTietHoaDon) {
+    public Map<String, String> checkSoLuongTrongKho(Map<Long, Integer> danhSachTong, List<TongHopHoaDonDTO> listChiTietHoaDon, BanHangDTO banHangDTO) {
         Map<String, String> errors = new HashMap<>();
         int index = 0;
         for (TongHopHoaDonDTO items : listChiTietHoaDon) {
@@ -143,6 +142,10 @@ public class ChiTietHDBHServiceImpl implements ChiTietHDBHService {
                         "khong dap ung yeu cau cua ban hoac san pham khong ton tai ");
             }
             index++;
+        }
+
+        if (banHangDTO.getNgaySinh().isAfter(LocalDate.now())){
+            errors.put("ngaySinh","Ngày sinh phải trước ngày hiện tại");
         }
         return errors;
     }

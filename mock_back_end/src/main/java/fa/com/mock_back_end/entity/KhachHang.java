@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ public class KhachHang {
     private Long maKhachHang;
     @Column(columnDefinition = "nvarchar(50)")
     private String tenKhachHang;
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private LocalDate ngaySinh;
     @Column(length = 10)
     private String gioiTinh;
