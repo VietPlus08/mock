@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class NhaCungCapValidation {
@@ -15,11 +16,19 @@ public class NhaCungCapValidation {
     @Autowired
     NhaCungCapRepository nhaCungCapRepository;
 
-    public Map<String, String> validate(NhaCungCapDTO nhaCungCap) {
+    public Map<String, String> validateCreate(NhaCungCapDTO nhaCungCap) {
         Map<String, String> errors = new HashMap<>();
         NhaCungCap findNhaCungCap = nhaCungCapRepository.findBySoDienThoai(nhaCungCap.getSoDienThoai());
-        if (findNhaCungCap != null){
-            errors.put("soDienThoai","Số điện thoại đã tồn tại");
+        if (findNhaCungCap != null) {
+            errors.put("soDienThoai", "Số điện thoại đã tồn tại");
+        }
+        return errors;
+    }
+    public Map<String, String> validateUpdate(NhaCungCapDTO nhaCungCap) {
+        Map<String, String> errors = new HashMap<>();
+        NhaCungCap findNhaCungCap = nhaCungCapRepository.findBySoDienThoai(nhaCungCap.getSoDienThoai());
+        if (findNhaCungCap != null && !Objects.equals(findNhaCungCap.getSoDienThoai(), nhaCungCap.getSoDienThoai())) {
+            errors.put("soDienThoai", "Số điện thoại đã tồn tại");
         }
         return errors;
     }

@@ -17,7 +17,19 @@ public class KhachHangValidation {
     @Autowired
     KhachHangRepository khachHangRepository;
 
-    public Map<String, String> validate(KhachHangDTO khachHang) {
+    public Map<String, String> validateCreate(KhachHangDTO khachHang) {
+        Map<String, String> errors = new HashMap<>();
+        KhachHang findKhachHang = khachHangRepository.findBySoDienThoai(khachHang.getSoDienThoai());
+        if (findKhachHang != null){
+            errors.put("soDienThoai","Số điện thoại đã tồn tại");
+        }
+        if (khachHang.getNgaySinh().isAfter(LocalDate.now())){
+            errors.put("ngaySinh","Ngày sinh phải trước ngày hiện tại");
+        }
+        return errors;
+    }
+
+    public Map<String, String> validateUpdate(KhachHangDTO khachHang) {
         Map<String, String> errors = new HashMap<>();
         KhachHang findKhachHang = khachHangRepository.findBySoDienThoai(khachHang.getSoDienThoai());
         if (findKhachHang != null && !Objects.equals(findKhachHang.getSoDienThoai(), khachHang.getSoDienThoai())){

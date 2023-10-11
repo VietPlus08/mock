@@ -46,7 +46,7 @@ public class NhaCungCapController {
 
     @PostMapping(value = "")
     public ResponseEntity<?> createItem(@Valid @RequestBody NhaCungCapDTO nhaCungCap) {
-        Map<String, String> errors = nhaCungCapValidation.validate(nhaCungCap);
+        Map<String, String> errors = nhaCungCapValidation.validateCreate(nhaCungCap);
         if (!errors.isEmpty()) {
             return ResponseEntity.badRequest().body(errors);
         }
@@ -55,7 +55,7 @@ public class NhaCungCapController {
 
     @PutMapping(value = "")
     public ResponseEntity<?> updateItem(@Valid @RequestBody NhaCungCapDTO nhaCungCap) {
-        Map<String, String> errors = nhaCungCapValidation.validate(nhaCungCap);
+        Map<String, String> errors = nhaCungCapValidation.validateUpdate(nhaCungCap);
         if (!errors.isEmpty()) {
             return ResponseEntity.badRequest().body(errors);
         }

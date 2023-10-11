@@ -39,7 +39,7 @@ public class KhachHangController {
 
     @PostMapping(value = "")
     public ResponseEntity<?> createItem(@Valid @RequestBody KhachHangDTO khachHang) {
-        Map<String, String> errors = khachHangValidation.validate(khachHang);
+        Map<String, String> errors = khachHangValidation.validateCreate(khachHang);
         if (!errors.isEmpty()) {
             return ResponseEntity.badRequest().body(errors);
         }
@@ -48,7 +48,7 @@ public class KhachHangController {
 
     @PutMapping(value = "")
     public ResponseEntity<?> updateItem(@Valid @RequestBody KhachHangDTO khachHang) {
-        Map<String, String> errors = khachHangValidation.validate(khachHang);
+        Map<String, String> errors = khachHangValidation.validateUpdate(khachHang);
         if (!errors.isEmpty()) {
             return ResponseEntity.badRequest().body(errors);
         }

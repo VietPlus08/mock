@@ -35,11 +35,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.cors().and().csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-//                        auth.antMatchers("/staff/san_pham/list", "/login", "/register").permitAll()
-//                        .antMatchers("/admin/**").hasRole("ADMIN")
-//                        .antMatchers("/staff/**").hasAnyRole("ADMIN", "STAFF")
-//                        .anyRequest().authenticated())
+                .authorizeHttpRequests(auth ->
+//                        auth.anyRequest().permitAll())
+                        auth.antMatchers("/staff/san_pham/list", "/login", "/register").permitAll()
+                        .antMatchers("/admin/**").hasRole("ADMIN")
+                        .antMatchers("/staff/**").hasAnyRole("ADMIN", "STAFF")
+                        .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class).build();

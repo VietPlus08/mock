@@ -95,7 +95,7 @@ public class ThongKeServiceImpl {
         listSanPhamDTO.forEach(i -> {
             thongKeDTO.setTongDoanhThu(i.getDoanhThu());
             thongKeDTO.setTongLoiNhuan(i.getLoiNhuan());
-            thongKeDTO.setTongSoLuong(i.getSoLuong());
+            thongKeDTO.setTongSoLuong(i.getSoLuongBan());
         });
     }
 
