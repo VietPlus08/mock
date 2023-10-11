@@ -47,7 +47,11 @@ public class KhachHangController {
     }
 
     @PutMapping(value = "")
-    public ResponseEntity<KhachHangDTO> updateItem(@Valid @RequestBody KhachHangDTO khachHang) {
+    public ResponseEntity<?> updateItem(@Valid @RequestBody KhachHangDTO khachHang) {
+        Map<String, String> errors = khachHangValidation.validate(khachHang);
+        if (!errors.isEmpty()) {
+            return ResponseEntity.badRequest().body(errors);
+        }
         return ResponseEntity.ok().body(khachHangService.update(khachHang));
     }
 }

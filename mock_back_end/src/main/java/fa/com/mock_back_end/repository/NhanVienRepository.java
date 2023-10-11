@@ -10,8 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import fa.com.mock_back_end.entity.NhanVien;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
-
 public interface NhanVienRepository extends JpaRepository<NhanVien, String> {
     @Query("select n.maNhanVien from NhanVien n")
     List<String> getByMaNhanVien();

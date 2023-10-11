@@ -54,7 +54,11 @@ public class NhaCungCapController {
     }
 
     @PutMapping(value = "")
-    public ResponseEntity<NhaCungCapDTO> updateItem(@Valid @RequestBody NhaCungCapDTO nhaCungCap) {
+    public ResponseEntity<?> updateItem(@Valid @RequestBody NhaCungCapDTO nhaCungCap) {
+        Map<String, String> errors = nhaCungCapValidation.validate(nhaCungCap);
+        if (!errors.isEmpty()) {
+            return ResponseEntity.badRequest().body(errors);
+        }
         return ResponseEntity.ok().body(nhaCungCapService.update(nhaCungCap));
     }
 }

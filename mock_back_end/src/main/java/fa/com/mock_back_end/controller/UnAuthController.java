@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,17 +51,28 @@ public class UnAuthController {
     @RequestMapping(value = "/admin/register", method = RequestMethod.POST)
     public ResponseEntity<?> addNewEmployee(@Valid @RequestBody NhanVienDTOThangDN8 nhanVienDTO,
                                                               BindingResult result) {
+        boolean flagError = true;
         Map<String, String> messageMap = new HashMap<>();
-        if (!result.hasErrors() && nhanVienDTO.getPassword().equals(nhanVienDTO.getRePassword())) {
-            messageMap.put("maNhanVien", userInforService.addUser(nhanVienDTO));
-            return ResponseEntity.status(HttpStatus.OK).body(messageMap);
-        }
+
         if (result.hasErrors()) {
             result.getFieldErrors().forEach(error -> messageMap.put(error.getField(), error.getDefaultMessage()));
+            flagError =false;
         }
+
+        if (nhanVienDTO.getNgaySinh().plusYears(18).isAfter(LocalDate.now())) {
+            messageMap.put("ngaySinh", "Nhân viên phải từ 18 tuổi trở lên");
+            flagError =false;
+        }
+
         // Kiểm tra mật khẩu và xác nhận mật khẩu
         if (!nhanVienDTO.getPassword().equals(nhanVienDTO.getRePassword())) {
             messageMap.put("reMatKhau", "Xác nhận mật khẩu và mật khẩu không trùng khớp!!");
+            flagError =false;
+        }
+
+        if (flagError) {
+            messageMap.put("maNhanVien", userInforService.addUser(nhanVienDTO));
+            return ResponseEntity.status(HttpStatus.OK).body(messageMap);
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageMap);
     }

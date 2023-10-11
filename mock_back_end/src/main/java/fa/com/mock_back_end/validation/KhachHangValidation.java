@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class KhachHangValidation {
@@ -19,7 +20,7 @@ public class KhachHangValidation {
     public Map<String, String> validate(KhachHangDTO khachHang) {
         Map<String, String> errors = new HashMap<>();
         KhachHang findKhachHang = khachHangRepository.findBySoDienThoai(khachHang.getSoDienThoai());
-        if (findKhachHang != null){
+        if (findKhachHang != null && !Objects.equals(findKhachHang.getSoDienThoai(), khachHang.getSoDienThoai())){
             errors.put("soDienThoai","Số điện thoại đã tồn tại");
         }
         if (khachHang.getNgaySinh().isAfter(LocalDate.now())){

@@ -15,6 +15,7 @@ import java.util.List;
 public class DanhSachQuanLyGiaoDichDTO {
     private Long maHoaDonBanHang;
     private String maNhanVien;
+    private String tenKhachHang;
     private Long maKhachHang;
     private LocalDateTime thoiGianBanHang;
     private Long tongHoaDon;

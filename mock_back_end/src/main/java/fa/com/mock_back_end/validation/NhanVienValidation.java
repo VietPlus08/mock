@@ -27,9 +27,8 @@ public class NhanVienValidation {
         // Trườngg hợp password nhận về = null -> cần update account infor
         if (nhanVienDTO.getPassword() == null) {
             if (nhanVienDTO.getNgaySinh() != null
-                    && nhanVienDTO.getNgaySinh().isAfter(LocalDate.now())) {
-                errors.put("ngaySinh", "Ngày sinh phải trước ngày hiện tại");
-            }
+                    && nhanVienDTO.getNgaySinh().plusYears(18).isAfter(LocalDate.now())) {
+                errors.put("ngaySinh", "Nhân viên phải từ 18 tuổi trở lên");            }
             return errors;
         }
         // Trườngg hợp password nhận về khác null -> cần update password
@@ -41,9 +40,9 @@ public class NhanVienValidation {
                 && passwordEncoder.matches(nhanVienDTO.getPassword(), nhanVien.get().getMatKhau())) {
             errors.put("password", "Bạn hay thay đổi password!");
         }
-        if (nhanVienDTO.getNgaySinh().isAfter(LocalDate.now())){
-            errors.put("ngaySinh","Ngày sinh phải trước ngày hiện tại");
-        }
+//        if (nhanVienDTO.getNgaySinh().isAfter(LocalDate.now())){
+//            errors.put("ngaySinh","Ngày sinh phải trước ngày hiện tại");
+//        }
         return errors;
     }
 }

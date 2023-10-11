@@ -67,7 +67,7 @@ public class BanHangController {
             }
 
             long tongHoadon = chiTietHDBHService.tongHoaDon(chiTietHoaDonBanHangList);
-
+            danhSachQuanLyGiaoDichDTO.setTenKhachHang(items.getKhachHang().getTenKhachHang());
             danhSachQuanLyGiaoDichDTO.setTongHoaDon(tongHoadon);
             danhSachQuanLyGiaoDichDTO.setChiTietHoaDonBanHang(list);
             lyGiaoDichDTO.add(danhSachQuanLyGiaoDichDTO);
