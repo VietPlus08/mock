@@ -66,9 +66,13 @@ public class NhanVienServiceImpl implements NhanVienService {
 
     @Override
     public NhanVienDTO update(NhanVienDTO nhanVienDTO) {
-        return nhanVienDTO == null || nhanVienDTO.getMaNhanVien() == null
-                ? null :
-                getNhanVienDTO(nhanVienRepository.save(getNhanVien(nhanVienDTO)));
+        if (nhanVienDTO.getPassword() == null) {
+            nhanVienRepository.updateNhanVienInfor(nhanVienDTO.getTenNhanVien(), nhanVienDTO.getNgaySinh(), nhanVienDTO.getGioiTinh(), nhanVienDTO.getMaNhanVien());
+        } else {
+            nhanVienRepository.updateNhanVienPassword(passwordEncoder.encode(nhanVienDTO.getPassword()), nhanVienDTO.getMaNhanVien());
+//            getNhanVienDTO(nhanVienRepository.save(getNhanVien(nhanVienDTO)));
+        }
+        return nhanVienDTO;
     }
 
     public NhanVienDTO getNhanVienDTO(NhanVien nhanVien) {
@@ -77,7 +81,9 @@ public class NhanVienServiceImpl implements NhanVienService {
 
     public NhanVien getNhanVien(NhanVienDTO nhanVienDTO) {
         NhanVien nhanVien = modelMapper.map(nhanVienDTO, NhanVien.class);
-        nhanVien.setMatKhau(passwordEncoder.encode(nhanVienDTO.getPassword()));
+        if (nhanVienDTO.getPassword() != null) {
+            nhanVien.setMatKhau(passwordEncoder.encode(nhanVienDTO.getPassword()));
+        }
         return nhanVien;
     }
 }

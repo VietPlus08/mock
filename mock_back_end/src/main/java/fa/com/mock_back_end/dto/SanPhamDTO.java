@@ -2,9 +2,7 @@ package fa.com.mock_back_end.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.NumberFormat;
 
-import javax.persistence.Column;
 import javax.validation.constraints.*;
 
 /**
@@ -47,6 +45,7 @@ public class SanPhamDTO {
     private String imgUrl;
     private long soLuong;
     // các trường làm nhiệm vụ thống kê
+    private long soLuongBan;
     private long doanhThu;
     private long loiNhuan;
 
@@ -58,7 +57,7 @@ public class SanPhamDTO {
         this.loiNhuan += loiNhuan;
     }
 
-    public void setSoLuong(long soLuong) {
-        this.soLuong += soLuong;
+    public void setSoLuongBan(long soLuongBan) {
+        this.soLuongBan += soLuongBan;
     }
 }

@@ -24,16 +24,16 @@ public class NhanVienValidation {
 
     public Map<String, String> validate(NhanVienDTO nhanVienDTO) {
         Map<String, String> errors = new HashMap<>();
-        // Trườngg hợp password nhận về !null -> cần update password
-        if (nhanVienDTO.getPassword() == null ) {
-            if (nhanVienDTO.getNgaySinh().isAfter(LocalDate.now())) {
+        // Trườngg hợp password nhận về = null -> cần update account infor
+        if (nhanVienDTO.getPassword() == null) {
+            if (nhanVienDTO.getNgaySinh() != null
+                    && nhanVienDTO.getNgaySinh().isAfter(LocalDate.now())) {
                 errors.put("ngaySinh", "Ngày sinh phải trước ngày hiện tại");
             }
-            // nếu password, repassword khác null thì --> cập nhật lại password
             return errors;
         }
         // Trườngg hợp password nhận về khác null -> cần update password
-            Optional<NhanVien> nhanVien = nhanVienService.findById(nhanVienDTO.getMaNhanVien());
+        Optional<NhanVien> nhanVien = nhanVienService.findById(nhanVienDTO.getMaNhanVien());
         if (!Objects.equals(nhanVienDTO.getPassword(), nhanVienDTO.getRePassword())) {
             errors.put("rePassword", "Password không trùng nhau!");
         }

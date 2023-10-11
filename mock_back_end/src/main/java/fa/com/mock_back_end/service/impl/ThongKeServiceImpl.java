@@ -49,40 +49,40 @@ public class ThongKeServiceImpl {
     }
 
     private void thongKeNhanVienProcess(ThongKeDTO thongKeDTO) {
-        List<NhanVienDTO> listNhanVienDTO = findListNhanVienDTO(thongKeDTO).stream()
-                .filter(i -> !i.getMaNhanVien().equals("admin"))
-                .collect(Collectors.toList());
+        List<NhanVienDTO> listNhanVienDTO = findListNhanVienDTO(thongKeDTO);
         thongKeDTO.setListNhanVien(listNhanVienDTO);
         listNhanVienDTO.forEach(i -> {
             thongKeDTO.setTongDoanhThu(i.getDoanhThu());
             thongKeDTO.setTongLoiNhuan(i.getLoiNhuan());
-            thongKeDTO.setTongSoLuong(i.getSoLuong());
+            thongKeDTO.setTongSoLuong(i.getSoLuongBan());
         });
     }
 
     /**
-    * @Description findListNhanVienDTO
-    * @Param thongKeDTO
-    * @Return NhanVienDTO
-    */
-    private List<NhanVienDTO> findListNhanVienDTO(ThongKeDTO thongKeDTO){
+     * @Description findListNhanVienDTO
+     * @Param thongKeDTO
+     * @Return NhanVienDTO
+     */
+    private List<NhanVienDTO> findListNhanVienDTO(ThongKeDTO thongKeDTO) {
         return nhanVienService.findAll().stream()
                 .map(i -> getNhanVienDTO(i, thongKeDTO))
                 .collect(Collectors.toList());
     }
 
 
-    private NhanVienDTO getNhanVienDTO(NhanVien nhanVien, ThongKeDTO thongKeDTO){
+    private NhanVienDTO getNhanVienDTO(NhanVien nhanVien, ThongKeDTO thongKeDTO) {
         NhanVienDTO nhanVienDTO = modelMapper.map(nhanVien, NhanVienDTO.class);
         List<HoaDonBanHang> listHoaDonBanHang = nhanVien.getListHoaDonBanHang();
         listHoaDonBanHang.forEach(hd -> {
             LocalDate thoiGianBanHang = hd.getThoiGianBanHang().toLocalDate();
-            if (thoiGianBanHang.isAfter(thongKeDTO.getThoiGianBatDau())
-                    && thoiGianBanHang.isBefore(thongKeDTO.getThoiGianKetThuc())) {
+            if ((thoiGianBanHang.isAfter(thongKeDTO.getThoiGianBatDau())
+                    || thoiGianBanHang.isEqual(thongKeDTO.getThoiGianBatDau()))
+                    && thoiGianBanHang.isBefore(thongKeDTO.getThoiGianKetThuc())
+                    || thoiGianBanHang.isEqual(thongKeDTO.getThoiGianKetThuc())) {
                 hd.getListChiTietHoaDonBanHang().forEach(cthdbh -> {
                     nhanVienDTO.setDoanhThu(cthdbh.getSoLuong() * cthdbh.getGiaBanThuc());
                     nhanVienDTO.setLoiNhuan(cthdbh.getSoLuong() * (cthdbh.getGiaBanThuc() - cthdbh.getSanPham().getGiaVon()));
-                    nhanVienDTO.setSoLuong(cthdbh.getSoLuong());
+                    nhanVienDTO.setSoLuongBan(cthdbh.getSoLuong());
                 });
             }
         });
@@ -110,11 +110,13 @@ public class ThongKeServiceImpl {
         List<ChiTietHoaDonBanHang> listChiTietHoaDonBanHang = sanPham.getListChiTietHoaDonBanHang();
         listChiTietHoaDonBanHang.forEach(i -> {
             LocalDate thoiGianBanHang = i.getHoaDonBanHang().getThoiGianBanHang().toLocalDate();
-            if (thoiGianBanHang.isAfter(thongKeDTO.getThoiGianBatDau())
-                    && thoiGianBanHang.isBefore(thongKeDTO.getThoiGianKetThuc())) {
+            if ((thoiGianBanHang.isAfter(thongKeDTO.getThoiGianBatDau())
+                        || thoiGianBanHang.isEqual(thongKeDTO.getThoiGianBatDau()))
+                    && thoiGianBanHang.isBefore(thongKeDTO.getThoiGianKetThuc())
+                        || thoiGianBanHang.isEqual(thongKeDTO.getThoiGianKetThuc())) {
                 sanPhamDTO.setDoanhThu(i.getSoLuong() * i.getGiaBanThuc());
                 sanPhamDTO.setLoiNhuan(i.getSoLuong() * (i.getGiaBanThuc() - sanPhamDTO.getGiaVon()));
-                sanPhamDTO.setSoLuong(i.getSoLuong());
+                sanPhamDTO.setSoLuongBan(i.getSoLuong());
             }
         });
         return sanPhamDTO;
