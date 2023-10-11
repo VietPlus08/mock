@@ -69,7 +69,7 @@ public class NhanVienServiceImpl implements NhanVienService {
         if (nhanVienDTO.getPassword() == null) {
             nhanVienRepository.updateNhanVienInfor(nhanVienDTO.getTenNhanVien(), nhanVienDTO.getNgaySinh(), nhanVienDTO.getGioiTinh(), nhanVienDTO.getMaNhanVien());
         } else {
-            nhanVienRepository.updateNhanVienPassword(nhanVienDTO.getPassword(), nhanVienDTO.getMaNhanVien());
+            nhanVienRepository.updateNhanVienPassword(passwordEncoder.encode(nhanVienDTO.getPassword()), nhanVienDTO.getMaNhanVien());
         }
         return nhanVienDTO;
     }
@@ -80,7 +80,9 @@ public class NhanVienServiceImpl implements NhanVienService {
 
     public NhanVien getNhanVien(NhanVienDTO nhanVienDTO) {
         NhanVien nhanVien = modelMapper.map(nhanVienDTO, NhanVien.class);
-        nhanVien.setMatKhau(passwordEncoder.encode(nhanVienDTO.getPassword()));
+        if (nhanVienDTO.getPassword() != null) {
+            nhanVien.setMatKhau(passwordEncoder.encode(nhanVienDTO.getPassword()));
+        }
         return nhanVien;
     }
 }

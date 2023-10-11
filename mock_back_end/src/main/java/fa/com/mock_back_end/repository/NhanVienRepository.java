@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import fa.com.mock_back_end.entity.NhanVien;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.transaction.Transactional;
 
