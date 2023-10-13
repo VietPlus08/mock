@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface SanPhamService {
 
     List<SanPhamDTO> findAllDTO();
+    List<SanPham> findAllStatusTrue();
     List<SanPham> findAll();
     Optional<SanPham> findById(Long id);
     Optional<SanPhamDTO> findDTOById(Long id);

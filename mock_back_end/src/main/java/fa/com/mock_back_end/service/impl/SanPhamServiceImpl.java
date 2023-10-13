@@ -27,25 +27,36 @@ public class SanPhamServiceImpl implements SanPhamService {
     ModelMapper modelMapper;
 
     /**
-    * Lấy list SanPhamDTO
+    * Lấy list SanPhamDTO status true
     * @Param
     * @Return List<SanPhamDTO>
     */
     @Override
     public List<SanPhamDTO> findAllDTO() {
-        return findAll().stream()
+        return findAllStatusTrue().stream()
                 .map(this::getSanPhamDTO)
                 .collect(Collectors.toList());
     }
 
     /**
-    * Lấy list SanPham
+    * Lấy list SanPham status true
     * @Param
     * @Return List<SanPham>
     */
     @Override
-    public List<SanPham> findAll() {
+    public List<SanPham> findAllStatusTrue() {
         return sanPhamRepository.findByStatusTrue();
+    }
+
+    /**
+     * Lấy list SanPhamDTO
+     *
+     * @Param
+     * @Return List<SanPham>
+     */
+    @Override
+    public List<SanPham> findAll() {
+        return sanPhamRepository.findAll();
     }
 
     /**

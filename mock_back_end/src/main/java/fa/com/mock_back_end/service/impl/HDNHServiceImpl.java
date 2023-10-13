@@ -113,7 +113,7 @@ public class HDNHServiceImpl implements HDNHService {
     * @Return long
     */
     public long getTongTien(List<ChiTietHoaDonNhapHangDTO> listChiTietHoaDonNhapHangDTO) {
-        List<SanPham> sanPhams = sanPhamService.findAll();
+        List<SanPham> sanPhams = sanPhamService.findAllStatusTrue();
         return listChiTietHoaDonNhapHangDTO.stream()
                 .mapToLong(i -> getGiaVon(sanPhams, i.getSanPhamDTO().getMaSanPham()) * i.getSoLuong())
                 .sum();

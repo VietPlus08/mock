@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface NhanVienService {
 
     List<NhanVienDTO> findAllDTO();
+    List<NhanVien> findAllStatusTrue();
     List<NhanVien> findAll();
     Optional<NhanVien> findById(String id);
     NhanVienDTO save(NhanVienDTO nhanVien);

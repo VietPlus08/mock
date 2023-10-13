@@ -31,14 +31,19 @@ public class NhanVienServiceImpl implements NhanVienService {
 
     @Override
     public List<NhanVienDTO> findAllDTO() {
-        return findAll().stream()
+        return findAllStatusTrue().stream()
                 .map(this::getNhanVienDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<NhanVien> findAll() {
+    public List<NhanVien> findAllStatusTrue() {
         return nhanVienRepository.findByStatusTrue();
+    }
+
+    @Override
+    public List<NhanVien> findAll() {
+        return nhanVienRepository.findAll();
     }
 
     @Override
