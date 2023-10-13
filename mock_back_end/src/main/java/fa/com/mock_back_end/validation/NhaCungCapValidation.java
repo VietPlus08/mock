@@ -27,7 +27,7 @@ public class NhaCungCapValidation {
     public Map<String, String> validateUpdate(NhaCungCapDTO nhaCungCap) {
         Map<String, String> errors = new HashMap<>();
         NhaCungCap findNhaCungCap = nhaCungCapRepository.findBySoDienThoai(nhaCungCap.getSoDienThoai());
-        if (findNhaCungCap != null && !Objects.equals(findNhaCungCap.getSoDienThoai(), nhaCungCap.getSoDienThoai())) {
+        if (findNhaCungCap != null && !Objects.equals(findNhaCungCap.getMaNhaCungCap(), nhaCungCap.getMaNhaCungCap())) {
             errors.put("soDienThoai", "Số điện thoại đã tồn tại");
         }
         return errors;

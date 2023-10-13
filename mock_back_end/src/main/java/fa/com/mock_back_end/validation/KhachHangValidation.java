@@ -32,7 +32,7 @@ public class KhachHangValidation {
     public Map<String, String> validateUpdate(KhachHangDTO khachHang) {
         Map<String, String> errors = new HashMap<>();
         KhachHang findKhachHang = khachHangRepository.findBySoDienThoai(khachHang.getSoDienThoai());
-        if (findKhachHang != null && !Objects.equals(findKhachHang.getSoDienThoai(), khachHang.getSoDienThoai())){
+        if (findKhachHang != null && !Objects.equals(findKhachHang.getMaKhachHang(), khachHang.getMaKhachHang())){
             errors.put("soDienThoai","Số điện thoại đã tồn tại");
         }
         if (khachHang.getNgaySinh().isAfter(LocalDate.now())){
